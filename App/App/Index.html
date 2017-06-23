@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="myApp">
+<head>
+    <title>AngularJS Tetris</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/gameController.js"></script>
+    <script src="controllers/highscoresController.js"></script>
+
+    <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="/Content/bootstrap.min.css" />
+    <script src="/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/Content/Site.css" />
+
+</head>
+<body>
+
+    <div class="container" ng-controller="gameController">
+        <div class="col-md-6 col-xs-12">
+            <div id="Game">
+
+                <div ng-repeat="row in board track by $id($index)" >
+                    <div ng-repeat="col in board[$index] track by $id($index)" class="Cell" style="background-color:{{ getCellColor($parent.$index,$index) }}">
+                        {{$index}} , {{$parent.$index}} : {{board[$parent.$index][$index] }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-xs-12 well">
+            <p>{{fallingTetromino}}</p>
+            <button ng-click="startGame()" type="button" class="btn btn-primary" id="btnStart">Start Game</button>
+
+        </div>
+
+    </div>
+    <!--<div>
+        <a href="#/">Home</a>
+        <a href="#/highscores">Highscores</a>
+    </div>
+
+    <div ng-controller="mainController">
+        <h1>{{message}}</h1>
+        <div ng-view>
+        </div>
+    </div>-->
+
+
+
+</body>
+</html>
