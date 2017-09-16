@@ -72,15 +72,11 @@ textarea {
 
 #Game {
     width: 400px;
-    height: 800px;
-    border: 1px solid black;
 }
 
 .Cell {
     width: 39.5px;
     height: 39px;
     margin: 0px;
-    border: 1px solid #5800ff;
     float: left;
-
 }

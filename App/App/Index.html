@@ -23,37 +23,30 @@
 <body>
 
     <div class="container" ng-controller="gameController">
-        <div class="col-md-6 col-xs-12">
-            <div id="Game">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div id="Game" style="background-color:{{ getGameColor() }}">
 
-                <div ng-repeat="row in board track by $id($index)" >
-                    <div ng-repeat="col in board[$index] track by $id($index)" class="Cell" style="background-color:{{ getCellColor($parent.$index,$index) }}">
-                        {{$index}} , {{$parent.$index}} : {{board[$parent.$index][$index] }}
+                    <div ng-repeat="row in board track by $id($index)">
+                        <div ng-repeat="col in board[$index] track by $id($index)" class="Cell" style="background-color:{{ getCellColor($parent.$index,$index) }}">
+                        </div>
                     </div>
+
                 </div>
 
             </div>
 
+            <div class="col-md-6 col-xs-12 well">
+                
+                <button ng-click="startGame()" type="button" class="btn btn-primary" id="btnStart">{{startButtonText}}</button>
+
+                <h3>Score</h3> {{score}}
+                <h3>Level</h3> {{level}}
+                
+            </div>
         </div>
-
-        <div class="col-md-6 col-xs-12 well">
-
-            <p>{{fallingTetromino}}</p>
-            <button ng-click="startGame()" type="button" class="btn btn-primary" id="btnStart">Start Game</button>
-            {{tetrads}}
-        </div>
-
-    </div>
-    <!--<div>
-        <a href="#/">Home</a>
-        <a href="#/highscores">Highscores</a>
     </div>
 
-    <div ng-controller="mainController">
-        <h1>{{message}}</h1>
-        <div ng-view>
-        </div>
-    </div>-->
 
 
 
