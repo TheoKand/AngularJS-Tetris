@@ -24,11 +24,11 @@
 
     <div class="container" ng-controller="gameController">
         <div class="row">
-            <div class="col-md-6 col-xs-12">
+            <div class="col-md-6 col-sm-6">
                 <div id="Game" style="background-color:{{ getGameColor() }}">
 
                     <div ng-repeat="row in board track by $id($index)">
-                        <div ng-repeat="col in board[$index] track by $id($index)" class="Cell" style="background-color:{{ getCellColor($parent.$index,$index) }}">
+                        <div ng-repeat="col in board[$index] track by $id($index)" class="Square" style="background-color:{{ getSquareColor($parent.$index,$index) }}">
                         </div>
                     </div>
 
@@ -36,14 +36,30 @@
 
             </div>
 
-            <div class="col-md-6 col-xs-12 well">
-                
-                <button ng-click="startGame()" type="button" class="btn btn-primary" id="btnStart">{{startButtonText}}</button>
+            <div class="col-md-6 col-sm-6 well">
 
-                <h3>Score</h3> {{score}}
-                <h3>Level</h3> {{level}}
-                
+                <div id="Next">
+
+                    <button ng-click="startGame()" type="button" class="btn btn-primary" id="btnStart">{{startButtonText}}</button>
+
+                    <h3>Next</h3>
+
+                    <div ng-repeat="row in nextTetrominoSquares track by $id($index)">
+                        <div ng-repeat="col in nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="float:right">
+                    <h3>Score</h3> {{score}}
+                    <h3>Level</h3> {{level}}
+                </div>
+
             </div>
+
+
+
         </div>
     </div>
 

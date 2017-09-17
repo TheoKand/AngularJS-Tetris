@@ -6,8 +6,10 @@ app.controller('gameController', function ($scope) {
     var gameInterval = null;
     var TetrominoType = { LINE: 2, BOX: 3, INVERTED_T: 4, S: 5, Z: 6, L: 7, INVERTED_L: 8 };
     var GameBoardSquareType = { EMPTY: 0, SOLID: 1 };
+    var tetrominoColors = ["white", "#4A235A", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
 
     $scope.startButtonText = "Start Game";
+    $scope.level = 1;
 
     //handle keyboard event. The tetromino is moved or rotated
     $(document).keydown(function (e) {
@@ -115,17 +117,14 @@ app.controller('gameController', function ($scope) {
     };
 
     //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
-    $scope.getCellColor = function (y, x) {
-
-        var colors = ["white", "#4A235A", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
+    $scope.getSquareColor = function (y, x) {
 
         var square = $scope.board[y][x];
         if (square == GameBoardSquareType.EMPTY) {
             return $scope.getGameColor();
         } else {
-            return colors[$scope.board[y][x]];
+            return tetrominoColors[square];
         }
-        
 
     };
 
@@ -136,6 +135,16 @@ app.controller('gameController', function ($scope) {
         return colors[($scope.level % 9) -1];
 
     };
+
+    $scope.getTetrominoColor = function (y, x) {
+        var square = $scope.nextTetrominoSquares[y][x];
+        if (square == GameBoardSquareType.EMPTY) {
+            return $scope.getGameColor();
+        } else {
+            return tetrominoColors[square];
+        }
+    }
+
 
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     function GetDelay() {
@@ -566,7 +575,15 @@ app.controller('gameController', function ($scope) {
         $scope.level = 1;
         $scope.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
         $scope.tetrominoHistory = "";
-        $scope.fallingTetromino = GetNextRandomTetromino();
+
+        //get next tetromino
+        if ($scope.nextTetromino) {
+            $scope.fallingTetromino = $scope.nextTetromino;
+        } else {
+            $scope.fallingTetromino = GetNextRandomTetromino();
+        }
+        $scope.nextTetromino = GetNextRandomTetromino();
+        $scope.nextTetrominoSquares = GetTetromimoSquares($scope.nextTetromino);
 
         //initialize game board
         $scope.board = new Array(boardSize.h);
@@ -612,10 +629,27 @@ app.controller('gameController', function ($scope) {
                 AddTetrominoThere($scope.fallingTetromino, $scope.board, false, true);
 
                 //clear completed lines
-                while (CheckForTetris());
+                var howManyLinesCompleted = 0;
+                while (CheckForTetris()) {
+                    howManyLinesCompleted++;
+                }
+                if (howManyLinesCompleted > 0) {
+                    //give extra points for multiple lines
+                    $scope.score = $scope.score + 50 * (howManyLinesCompleted - 1);
+                    if (howManyLinesCompleted == 4) {
+                        $scope.score = $scope.score + 500;
+                    }
+                }
 
                 //send next one
-                $scope.fallingTetromino = GetNextRandomTetromino();
+                if ($scope.nextTetromino) {
+                    $scope.fallingTetromino = $scope.nextTetromino;
+                } else {
+                    $scope.fallingTetromino = GetNextRandomTetromino();
+                }
+                $scope.nextTetromino = GetNextRandomTetromino();
+                $scope.nextTetrominoSquares = GetTetromimoSquares($scope.nextTetromino);
+
                 AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
             }
 
