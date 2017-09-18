@@ -20,51 +20,33 @@
     <link rel="stylesheet" href="/Content/Site.css" />
 
 </head>
-<body>
+<body ng-controller="gameController" style="background-color:{{ getGameColor() }}">
 
-    <div class="container" ng-controller="gameController">
+    <div class="container" >
         <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <div id="Game" style="background-color:{{ getGameColor() }}">
+            <div class="col-md-12 text-center">
 
+                <button ng-click="startGame()" type="button" class="btn btn-info" id="btnStart">{{startButtonText}}</button><br />
+
+                <div id="Game" >
+                    <div id="GameInfo">
+                        Score: <b>{{score}}</b><br />
+                        Level: <b>{{level}}</b><br />
+                        Next:
+                        <div ng-repeat="row in nextTetrominoSquares track by $id($index)">
+                            <div ng-repeat="col in nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
+                            </div>
+                        </div>
+                    </div>
                     <div ng-repeat="row in board track by $id($index)">
                         <div ng-repeat="col in board[$index] track by $id($index)" class="Square" style="background-color:{{ getSquareColor($parent.$index,$index) }}">
                         </div>
                     </div>
-
                 </div>
 
             </div>
-
-            <div class="col-md-6 col-sm-6 well">
-
-                <div id="Next">
-
-                    <button ng-click="startGame()" type="button" class="btn btn-primary" id="btnStart">{{startButtonText}}</button>
-
-                    <h3>Next</h3>
-
-                    <div ng-repeat="row in nextTetrominoSquares track by $id($index)">
-                        <div ng-repeat="col in nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div style="float:right">
-                    <h3>Score</h3> {{score}}
-                    <h3>Level</h3> {{level}}
-                </div>
-
-            </div>
-
-
-
         </div>
     </div>
-
-
-
 
 </body>
 </html>

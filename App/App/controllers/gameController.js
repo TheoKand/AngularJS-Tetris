@@ -120,11 +120,7 @@ app.controller('gameController', function ($scope) {
     $scope.getSquareColor = function (y, x) {
 
         var square = $scope.board[y][x];
-        if (square == GameBoardSquareType.EMPTY) {
-            return $scope.getGameColor();
-        } else {
-            return tetrominoColors[square];
-        }
+        return tetrominoColors[square];
 
     };
 

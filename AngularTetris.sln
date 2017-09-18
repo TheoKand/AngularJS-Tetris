@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{8E066084-B179-49D2-BEF5-9788CC54D721}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularTetris", "App\AngularTetris.csproj", "{8E066084-B179-49D2-BEF5-9788CC54D721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

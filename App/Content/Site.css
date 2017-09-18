@@ -50,11 +50,24 @@
     }
 }
 
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #Game {
+    background-color:white;
     width: 395px;
     height:780px;
     box-shadow: 5px 5px 2px grey;
-    float:right;
+}
+
+#GameInfo {
+    position:absolute;
+    padding:3px;
+    width:60px;
 }
 
 #Next {
