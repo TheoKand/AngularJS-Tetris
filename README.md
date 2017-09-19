@@ -12,7 +12,7 @@ The project is built using the following technologies:
 - Bootstrap 3.3.7
 - Javascript
 
-It's a fully responsive website which means that all the information is visible on any type of device like mobiles and tablets.
+It's a fully responsive Single Page Application which means that all the information is visible on any type of device like mobiles and tablets.
 
 The site is published on the cloud using Microsoft Azure.
 
