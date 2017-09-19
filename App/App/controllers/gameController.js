@@ -8,8 +8,10 @@ app.controller('gameController', function ($scope) {
     var GameBoardSquareType = { EMPTY: 0, SOLID: 1 };
     var tetrominoColors = ["white", "#4A235A", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
 
-    $scope.startButtonText = "Start Game";
+    $scope.startButtonText = "Start";
     $scope.level = 1;
+
+
 
     //handle keyboard event. The tetromino is moved or rotated
     $(document).keydown(function (e) {
@@ -28,7 +30,9 @@ app.controller('gameController', function ($scope) {
                     //add to new position
                     AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
                     //update screen
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
                 }
 
                 break;
@@ -45,7 +49,10 @@ app.controller('gameController', function ($scope) {
                     //add to new position
                     AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
                     //update screen
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+
                 }
                 break;
 
@@ -60,7 +67,10 @@ app.controller('gameController', function ($scope) {
                     //add to new position
                     AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
                     //update screen
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+
                 }
 
 
@@ -77,7 +87,10 @@ app.controller('gameController', function ($scope) {
                     //add to new position
                     AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
                     //update screen
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+
                 }
 
 
@@ -88,6 +101,15 @@ app.controller('gameController', function ($scope) {
         e.preventDefault(); // prevent the default action (scroll / move caret)
 
     });
+
+    //In small screen devices, a virtual keyboard is displayed 
+    $scope.VirtualKeyboardEvent = function(key) {
+
+        var e = $.Event('keydown');
+        e.which = key;
+        $(document).trigger(e);
+
+    }
 
     //init a new game and start the game loop timer, or pause game
     $scope.startGame = function () {
@@ -101,14 +123,14 @@ app.controller('gameController', function ($scope) {
 
             $scope.running = true;
             gameInterval = setTimeout(Animate, GetDelay());
-            $scope.startButtonText = "Pause Game";
+            $scope.startButtonText = "Pause";
 
         } else {
 
             $scope.running = false;
             $scope.paused = true;
 
-            $scope.startButtonText = "Continue Game";
+            $scope.startButtonText = "Continue";
             if (gameInterval) {
                 clearTimeout(gameInterval);
             }
@@ -266,7 +288,7 @@ app.controller('gameController', function ($scope) {
 
             case TetrominoType.LINE:
 
-                if (tetromino.rotation == 0) {
+                if (tetromino.rotation == 1) {
 
                     // ----
 
@@ -617,7 +639,7 @@ app.controller('gameController', function ($scope) {
             if ($scope.fallingTetromino.y == 0) {
                 //game over!
                 $scope.running = false;
-                $scope.startButtonText = "Start Game";
+                $scope.startButtonText = "Start";
                 alert("Game Over!");
             } else {
 
@@ -652,7 +674,9 @@ app.controller('gameController', function ($scope) {
         }
 
         //redraw angular elements
-        $scope.$apply();
+        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+            $scope.$apply();
+        }
 
         //set the game timer. The delay depends on the current level. The higher the level, the fastest the game moves (harder)
         gameInterval = setTimeout(Animate, GetDelay());

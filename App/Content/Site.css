@@ -1,6 +1,5 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .margin-top-0 {
@@ -39,17 +38,6 @@
     padding: 0 !important;
 }
 
-@media (max-width: 560px) {
-    .container {
-        padding: 2px;
-        margin: 2px;
-    }
-
-    .panel-body {
-        padding: 1;
-    }
-}
-
 .container {
     height: 100%;
     display: flex;
@@ -58,35 +46,80 @@
 }
 
 #Game {
-    background-color:white;
-    width: 395px;
-    height:780px;
+    background-color: white;
+    width: 450px;
+    height: 800px;
     box-shadow: 5px 5px 2px grey;
 }
 
 #GameInfo {
-    position:absolute;
-    padding:3px;
-    width:60px;
+    position: absolute;
+    padding: 3px;
+    width: 50px;
 }
 
 #Next {
-    float:left;
-    width:50px;
+    float: left;
+    width: 50px;
 }
 
 .Square {
-    width: 39.5px;
-    height: 39px;
+    width: 45px;
+    height: 40px;
     margin: 0px;
     float: left;
-    border:0;
+    border: 0;
 }
 
 .SmallSquare {
-    width: 15px;
+    width: 12px;
     height: 15px;
     margin: 0px;
     float: left;
-    border:0;
+    border: 0;
+}
+
+#TouchScreenController {
+    display: none;
+}
+
+@media (max-width: 768px)  {
+
+    html, body {
+        max-width: 100%;
+        max-height: 100%;
+        overflow: hidden;
+    }
+
+
+    body {
+        padding-top: 5px;
+    }
+
+
+    .container {
+        padding: 0;
+        margin: 0;
+    }
+
+    #Game {
+        width: 250px;
+        height: 400px;
+    }
+
+    .Square {
+        width: 25px;
+        height: 20px;
+    }
+
+    #TouchScreenController {
+        margin-top: 8px;
+        width: 250px;
+        display: block;
+        font-size:xx-large
+    }
+
+    .glyphicon {
+        margin-top: 8px;
+    }
 }
