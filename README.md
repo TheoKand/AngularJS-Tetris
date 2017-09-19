@@ -1,17 +1,9 @@
 # AngularTetris 
 
-UNDER CONSTRUCTION
-
 This is an original AngularJS + Plain Javascript version of the most popular video game ever. 
 
 Online Demo:
 http://angulartetris20170918013407.azurewebsites.net/App/
-
-Screenshots:
-
-https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png
-https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png
-https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/3.png
 
 # Technologies
 The project is built using the following technologies:
