@@ -10,8 +10,9 @@ app.controller('gameController', function ($scope) {
 
     $scope.startButtonText = "Start";
     $scope.level = 1;
+    $scope.score = 0;
 
-
+    GetHighscores();
 
     //handle keyboard event. The tetromino is moved or rotated
     $(document).keydown(function (e) {
@@ -121,6 +122,7 @@ app.controller('gameController', function ($scope) {
                 InitializeGame();
             }
 
+            $scope.paused = false;
             $scope.running = true;
             gameInterval = setTimeout(Animate, GetDelay());
             $scope.startButtonText = "Pause";
@@ -137,6 +139,33 @@ app.controller('gameController', function ($scope) {
         }
 
     };
+
+    //save a new highscore
+    $scope.saveHighscore = function () {
+
+        var highscore = new Object();
+        highscore.Name = $('#txtName').val();
+        highscore.Score = $scope.score;
+
+        if (highscore.Name.length == 0) {
+            alert("Please enter your name!");
+            return;
+        }
+
+        $.ajax({
+            url: '/api/highscores',
+            type: 'POST',
+            dataType: 'json',
+            data: highscore,
+            success: function (data, textStatus, xhr) {
+                GetHighscores();
+                $scope.IsHighscore = false;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("An error occured while saving the highscore");
+            }
+        });
+    }
 
     //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
     $scope.getSquareColor = function (y, x) {
@@ -593,6 +622,7 @@ app.controller('gameController', function ($scope) {
         $scope.level = 1;
         $scope.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
         $scope.tetrominoHistory = "";
+        $scope.IsHighscore = false;
 
         //get next tetromino
         if ($scope.nextTetromino) {
@@ -617,6 +647,46 @@ app.controller('gameController', function ($scope) {
 
     };
 
+    //Query the WebAPI action to get the list of highscores
+    function GetHighscores() {
+
+        $.ajax({
+            url: '/api/highscores',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $scope.highscores = data;
+                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                    $scope.$apply();
+                }
+            },
+
+            error: function (xhr, textStatus, errorThrown) {
+                alert("An error occured while reading the highscores");
+            }
+        });
+
+    }
+
+    //Game is over. Check if there is a new highscore
+    function GameOver() {
+
+        $scope.running = false;
+        $scope.startButtonText = "Start";
+        
+        if ($scope.score > 0 && $scope.highscores) {
+            if ($scope.highscores.length < 10) {
+                $scope.IsHighscore = true;
+            } else {
+                var minScore = $scope.highscores[$scope.highscores.length - 1].Score;
+                $scope.IsHighscore = ($scope.score > minScore);
+            }
+        }
+
+        $("#btnGameover").click();
+
+    }
+
     // the game loop. If the tetris game is running...
     // 1. move the tetromino down if it can fall 
     // 2. solidify the tetromino if it can't go futher down
@@ -637,10 +707,7 @@ app.controller('gameController', function ($scope) {
 
             //tetromino is solidified. Check for game over and Send the next one.
             if ($scope.fallingTetromino.y == 0) {
-                //game over!
-                $scope.running = false;
-                $scope.startButtonText = "Start";
-                alert("Game Over!");
+                GameOver();
             } else {
 
                 //solidify tetromino
@@ -668,7 +735,14 @@ app.controller('gameController', function ($scope) {
                 $scope.nextTetromino = GetNextRandomTetromino();
                 $scope.nextTetrominoSquares = GetTetromimoSquares($scope.nextTetromino);
 
-                AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
+                var tetrominoCanFall = TetrominoCanGoThere($scope.fallingTetromino, $scope.board, true);
+                if (!tetrominoCanFall) {
+                    GameOver();
+                } else {
+                    AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
+                }
+
+                
             }
 
         }
@@ -709,7 +783,7 @@ app.controller('gameController', function ($scope) {
 
 
                 //check if current level is completed
-                if ($scope.lines % 6 == 0) {
+                if ($scope.lines % 5 == 0) {
                     $scope.level++;
                 }
 

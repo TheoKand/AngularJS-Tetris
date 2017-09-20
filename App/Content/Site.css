@@ -45,11 +45,26 @@
     align-items: center;
 }
 
+.dropdown {
+    float:left;
+}
+
 #Game {
     background-color: white;
     width: 450px;
     height: 800px;
     box-shadow: 5px 5px 2px grey;
+}
+
+.blur {
+    background-color: black !important;
+    opacity: 0.5;
+
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
 }
 
 #GameInfo {
@@ -83,7 +98,9 @@
     display: none;
 }
 
-@media (max-width: 768px)  {
+
+
+@media (max-width: 768px) {
 
     html, body {
         max-width: 100%;
@@ -116,7 +133,7 @@
         margin-top: 8px;
         width: 250px;
         display: block;
-        font-size:xx-large
+        font-size: xx-large;
     }
 
     .glyphicon {

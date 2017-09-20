@@ -25,9 +25,19 @@
     <div class="container">
         <div class="row">
             <div>
-
-                <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{startButtonText}}</button>
-                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#InfoModal">Info</button>
+                
+                <div class="dropdown">
+                    <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{startButtonText}}</button>
+                    <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        More
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-toggle="modal" data-target="#InfoModal">Info</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#InfoHighscores" id="btnHighscores">Highscores</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#InfoGameover" id="btnGameover" style="display:none">Highscores</a></li>
+                    </ul>
+                </div>
 
                 <div class="hidden-sm hidden-xs text-center" style="float:right">
                     <h3 style="display: inline; text-shadow: 1px 1px 3px red;">AngularJS Tetris</h3>
@@ -38,14 +48,13 @@
                     <h5 style="display: inline; text-shadow: 1px 1px 3px red;">AngularJS Tetris</h5>
                 </div>
 
-
-
                 <br style="clear:both" />
             </div>
 
             <div class="text-center">
 
-                <div id="Game">
+                <div id="Game" ng-class="{ 'blur': paused }">
+
                     <div id="GameInfo">
                         Score: <b>{{score}}</b><br />
                         Level: <b>{{level}}</b><br />
@@ -63,13 +72,13 @@
 
                 <div id="TouchScreenController">
 
-                    <div style="width:100%;height:50px;border:1px solid black" ng-click="VirtualKeyboardEvent(38)" >
+                    <div style="width:100%;height:50px;border:1px solid black" ng-click="VirtualKeyboardEvent(38)">
 
-                        <span  class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
 
                     </div>
 
-                    <div style="float:left;width:50%;height:50px;border-right:1px solid black;border-left:1px solid black;" ng-click="VirtualKeyboardEvent(37)" >
+                    <div style="float:left;width:50%;height:50px;border-right:1px solid black;border-left:1px solid black;" ng-click="VirtualKeyboardEvent(37)">
 
                         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 
@@ -77,22 +86,15 @@
 
                     <div style="float:left;width:50%;height:50px;border-right:1px solid black;">
 
-                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" ng-click="VirtualKeyboardEvent(39)" ></span>
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" ng-click="VirtualKeyboardEvent(39)"></span>
 
                     </div>
-
 
                     <div style="width:100%;height:50px;border:1px solid black;clear:both;">
 
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ng-click="VirtualKeyboardEvent(40)" ></span>
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ng-click="VirtualKeyboardEvent(40)"></span>
 
                     </div>
-
-
-                    
-
-
-
 
                 </div>
 
@@ -100,18 +102,17 @@
         </div>
     </div>
 
-
     <!-- information area -->
     <div class="modal fade" id="InfoModal" role="dialog">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">AngularJS Tetris</h4>
+                    <h2 class="modal-title">AngularJS Tetris</h2>
+                    <br /><small>by <a href="https://github.com/TheoKand">Theo Kandiliotis</a></small>
                 </div>
                 <div class="modal-body">
 
-                    <h3>Introduction</h3>
                     <p>
                         This is an original AngularJS + Plain Javascript version of the most popular video game ever.
                     </p>
@@ -122,13 +123,121 @@
                             <li>AngularJS 1.6.4</li>
                             <li>Bootstrap 3.3.7</li>
                             <li>Javascript</li>
+                            <li>WebAPI</li>
+                            <li>MySql + Entity Framework</li>
                         </ul>
 
 
                     </p>
 
-                    <h3>Control</h3>
-                    <p>Use the arrow keys LEFT, RIGHT to move the tetromino, UP to rotate and DOWN to accelarate.</p>
+                    <h4>Control</h4>
+                    <p>Use the arrow keys LEFT, RIGHT to move the tetromino, UP to rotate and DOWN to accelarate. If you are using a mobile device, a virtual on-screen keyboard will appear.</p>
+
+                    <h4>Source code</h4>
+                    <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on September 2017. </p>
+                    <p><a class="btn btn-default" href="https://github.com/TheoKand/AngularTetris">Browse &raquo;</a></p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- highscores area -->
+    <div class="modal fade" id="InfoHighscores" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">Highscores</h2>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Score
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="highscore in highscores track by $index">
+                                <td>{{$index +1}}</td>
+                                <td>{{highscore.Name}}</td>
+                                <td>{{highscore.Score}}</td>
+                                <td>{{highscore.DateCreated | date : short}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    You must score {{highscores[highscores.length-1].Score}} or more to get in the highscores!
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- gameover area -->
+    <div class="modal fade" id="InfoGameover" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">Game Over!</h2>
+                </div>
+                <div class="modal-body">
+
+                    <p>
+                        <b>Your score is {{score}}</b>
+                    </p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Score
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="highscore in highscores track by $index">
+                                <td>{{$index +1}}</td>
+                                <td>{{highscore.Name}}</td>
+                                <td>{{highscore.Score}}</td>
+                                <td>{{highscore.DateCreated | date : short}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <div ng-style="IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
+                        Please enter your name: <input id="txtName" type="text" />
+                        <button ng-click="saveHighscore()" type="button" class="btn btn-sm btn-success">OK</button>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
