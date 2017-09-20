@@ -98,8 +98,22 @@
     display: none;
 }
 
+/* for laptops and small desktop screens */
+@media (max-height: 800px) {
 
+    #Game {
+        width: 250px;
+        height: 500px;
+    }
 
+    .Square {
+        width: 25px;
+        height: 25px;
+    }
+
+}
+
+/* for mobiles,tablets */
 @media (max-width: 768px) {
 
     html, body {
