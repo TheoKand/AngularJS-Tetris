@@ -6,6 +6,7 @@ Online Demo:
 http://angulartetris20170918013407.azurewebsites.net/App/
 
 Screenshots:
+
 https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png
 https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png
 
