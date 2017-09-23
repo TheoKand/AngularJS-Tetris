@@ -27,10 +27,11 @@ namespace App.Controllers
             db.angulartetris_highscores.Add(newItem);
 
             //delete lower highscore if there are more than 10
-            if (db.angulartetris_highscores.Count()>10)
+            if (db.angulartetris_highscores.Count()>9)
             {
-                var lowest = db.angulartetris_highscores.OrderBy(h => h.Score).Take(1).ToList()[0];
+                var lowest = db.angulartetris_highscores.OrderBy(h => h.Score).First();
                 db.angulartetris_highscores.Remove(lowest);
+                db.Entry(lowest).State = System.Data.Entity.EntityState.Deleted;
             }
 
             db.SaveChanges();

@@ -104,7 +104,7 @@ app.controller('gameController', function ($scope) {
     });
 
     //In small screen devices, a virtual keyboard is displayed 
-    $scope.VirtualKeyboardEvent = function(key) {
+    $scope.VirtualKeyboardEvent = function (key) {
 
         var e = $.Event('keydown');
         e.which = key;
@@ -176,10 +176,10 @@ app.controller('gameController', function ($scope) {
     };
 
     //returns the color of the game board depending on the level
-    $scope.getGameColor = function() {
+    $scope.getGameColor = function () {
 
         var colors = ["#f5f5f5", "#FCF3CF", "#EBEDEF", "#CCD1D1", "#F5EEF8", "#D2B4DE", "#D4EFDF", "#58D68D", "#FEF9E7", "#EDBB99"];
-        return colors[($scope.level % 9) -1];
+        return colors[($scope.level % 9) - 1];
 
     };
 
@@ -192,19 +192,20 @@ app.controller('gameController', function ($scope) {
         }
     }
 
-
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     function GetDelay() {
         var delay = 1000;
 
         if ($scope.level < 5) {
-            delay= delay - (120 * ($scope.level - 1));
+            delay = delay - (120 * ($scope.level - 1));
+        } else if ($scope.level < 15) {
+            delay = delay - (60 * ($scope.level - 1));
         } else {
-            delay= delay - (60 * ($scope.level - 1));
+            delay = delay - (800 + $scope.level * 10);
         }
 
         return delay;
-        
+
     }
 
     //Check if this tetromino can move down on the board. It might be blocked by existing solid squares, or by the game board edges
@@ -601,7 +602,7 @@ app.controller('gameController', function ($scope) {
         }
 
         $scope.tetrads = $scope.tetrads + '\n' + randomTetrominoType;
-        
+
         //keep a list of fallen tetrominos
         if ($scope.tetrominoHistory != "") $scope.tetrominoHistory = $scope.tetrominoHistory + ",";
         $scope.tetrominoHistory = $scope.tetrominoHistory + randomTetrominoType;
@@ -673,7 +674,7 @@ app.controller('gameController', function ($scope) {
 
         $scope.running = false;
         $scope.startButtonText = "Start";
-        
+
         if ($scope.score > 0 && $scope.highscores) {
             if ($scope.highscores.length < 10) {
                 $scope.IsHighscore = true;
@@ -742,7 +743,7 @@ app.controller('gameController', function ($scope) {
                     AddTetrominoThere($scope.fallingTetromino, $scope.board, false);
                 }
 
-                
+
             }
 
         }
@@ -760,8 +761,8 @@ app.controller('gameController', function ($scope) {
     //check if any lines were completed
     function CheckForTetris() {
 
-        for (var y = boardSize.h-1; y >0; y--) {
-            
+        for (var y = boardSize.h - 1; y > 0; y--) {
+
             var lineIsComplete = true;
             for (var x = 0; x < boardSize.w; x++) {
                 if ($scope.board[y][x] != GameBoardSquareType.SOLID) {
@@ -791,7 +792,7 @@ app.controller('gameController', function ($scope) {
 
 
             }
-                
+
         }
 
         return false;
