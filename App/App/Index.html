@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div ng-repeat="row in board track by $id($index)">
-                        <div ng-repeat="col in board[$index] track by $id($index)" class="Square" style="background-color:{{ getSquareColor($parent.$index,$index) }}">
+                        <div ng-repeat="col in board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="background-color:{{ getSquareColor($parent.$index,$index) }}">
                         </div>
                     </div>
                 </div>

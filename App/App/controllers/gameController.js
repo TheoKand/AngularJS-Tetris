@@ -192,6 +192,18 @@ app.controller('gameController', function ($scope) {
         }
     }
 
+    $scope.getSquareCssClass = function (y, x) {
+        var square = $scope.board[y][x];
+        
+        if (square == GameBoardSquareType.EMPTY) {
+            return "Square ";
+        } else if (square == GameBoardSquareType.SOLID) {
+            return "Square SolidSquare";
+        } else {
+            return "Square TetrominoSquare";
+        }
+    }
+
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     function GetDelay() {
         var delay = 1000;

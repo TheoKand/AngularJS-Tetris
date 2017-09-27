@@ -86,6 +86,11 @@
     border: 0;
 }
 
+.TetrominoSquare {
+    border:1px solid white;
+    box-shadow: inset -1px 2px 4px grey;
+}
+
 .SmallSquare {
     width: 12px;
     height: 15px;
