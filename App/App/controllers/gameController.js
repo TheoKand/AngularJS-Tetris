@@ -211,9 +211,9 @@ app.controller('gameController', function ($scope) {
         if ($scope.level < 5) {
             delay = delay - (120 * ($scope.level - 1));
         } else if ($scope.level < 15) {
-            delay = delay - (60 * ($scope.level - 1));
+            delay = delay - (58 * ($scope.level - 1));
         } else {
-            delay = delay - (800 + $scope.level * 10);
+            delay = 220 - ($scope.level-15)*8;
         }
 
         return delay;
