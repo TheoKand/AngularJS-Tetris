@@ -10,11 +10,6 @@ http://angulartetris20170918013407.azurewebsites.net/App/
 ![Alt text](https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png)
 ![Alt text](https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png)
 
-Screenshots:
-
-https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png
-https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png
-
 # Technologies
 The project is built using the following technologies:
 
