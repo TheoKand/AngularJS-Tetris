@@ -13,12 +13,19 @@ namespace App.Controllers
         protected App.Models.oblivius_mysqlEntities db = new Models.oblivius_mysqlEntities();
 
         // GET api/<controller>
+        /// <summary>
+        /// Returns the list of highscores
+        /// </summary>
         public List<Models.angulartetris_highscores> Get()
         {
             var result =  db.angulartetris_highscores.OrderByDescending(h => h.Score).ToList();
             return result;
         }
 
+        /// <summary>
+        /// Adds a new highscore to the database
+        /// </summary>
+        /// <param name="newItem"></param>
         [HttpPost]
         public void Put(Models.angulartetris_highscores newItem)
         {
@@ -34,6 +41,7 @@ namespace App.Controllers
                 db.Entry(lowest).State = System.Data.Entity.EntityState.Deleted;
             }
 
+            //persist changes with entity framework
             db.SaveChanges();
 
         }

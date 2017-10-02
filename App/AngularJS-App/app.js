@@ -1,6 +1,8 @@
 ﻿'use strict';
 
-app.controller('gameController', function ($scope) {
+var app = angular.module('myApp', ['ngRoute'])
+
+.controller('gameController', function ($scope) {
 
     var boardSize = { w: 10, h: 20 };
     var gameInterval = null;
@@ -194,7 +196,7 @@ app.controller('gameController', function ($scope) {
 
     $scope.getSquareCssClass = function (y, x) {
         var square = $scope.board[y][x];
-        
+
         if (square == GameBoardSquareType.EMPTY) {
             return "Square ";
         } else if (square == GameBoardSquareType.SOLID) {
@@ -213,7 +215,7 @@ app.controller('gameController', function ($scope) {
         } else if ($scope.level < 15) {
             delay = delay - (58 * ($scope.level - 1));
         } else {
-            delay = 220 - ($scope.level-15)*8;
+            delay = 220 - ($scope.level - 15) * 8;
         }
 
         return delay;
