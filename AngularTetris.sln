@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularTetris", "App\AngularTetris.csproj", "{8E066084-B179-49D2-BEF5-9788CC54D721}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForAngularJS", "TestForAngularJS\TestForAngularJS.csproj", "{C6C18A0B-2911-416C-8F29-79BD078BBD61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularTetris", "Source\AngularTetris.csproj", "{8E066084-B179-49D2-BEF5-9788CC54D721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E066084-B179-49D2-BEF5-9788CC54D721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E066084-B179-49D2-BEF5-9788CC54D721}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E066084-B179-49D2-BEF5-9788CC54D721}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E066084-B179-49D2-BEF5-9788CC54D721}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C6C18A0B-2911-416C-8F29-79BD078BBD61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6C18A0B-2911-416C-8F29-79BD078BBD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6C18A0B-2911-416C-8F29-79BD078BBD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6C18A0B-2911-416C-8F29-79BD078BBD61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E066084-B179-49D2-BEF5-9788CC54D721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E066084-B179-49D2-BEF5-9788CC54D721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E066084-B179-49D2-BEF5-9788CC54D721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E066084-B179-49D2-BEF5-9788CC54D721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
