@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+// this Value object contains all the values that define the game state
 app.value('gameData', {
 
     startButtonText: "Start",
