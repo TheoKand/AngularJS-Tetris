@@ -11,7 +11,7 @@ app.factory('gameBoardService', function () {
     factory.boardSize = { w: 10, h: 20 };
     factory.TetrominoTypeEnum = { LINE: 2, BOX: 3, INVERTED_T: 4, S: 5, Z: 6, L: 7, INVERTED_L: 8 };
     factory.TetrominoColors = ["white", "darkviolet", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
-    factory.GameBoardColors = ["#2200FF", "#0066FF", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#FFE100", "#FFAA00", "#FF7400","#FF2B00","#FF0000","#000000"];
+    factory.GameBoardColors = ["#2200FF", "#0066FF", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#FFE100", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"];
     factory.GameBoardSquareTypeEnum = { EMPTY: 0, SOLID: 1 };
 
     //The various tetromino types are defined here. Each one has a series of squares that this function returns
@@ -410,7 +410,6 @@ app.factory('gameBoardService', function () {
         return false;
 
     }
-
 
     return factory;
 });

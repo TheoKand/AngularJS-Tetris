@@ -1,8 +1,7 @@
 ﻿'use strict';
 
-app.controller('gameController', function ($scope, highscoreService, gameBoardService,gameData) {
+app.controller('gameController', function ($scope, highscoreService, gameBoardService, gameData) {
 
-    
     var gameInterval = null;
 
     //The gameData service containing the score, current level etc must be accessed from the view (the html markup in Index.html), so it must be attached to the $scope
@@ -98,7 +97,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         e.which = key;
         $(document).trigger(e);
 
-    }
+    };
 
     //init a new game and start the game loop timer, or pause game
     $scope.startGame = function () {
@@ -133,19 +132,19 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
         var square = $scope.gameData.board[y][x];
 
-        if (square==gameBoardService.GameBoardSquareTypeEnum.SOLID) {
-            return $scope.getGameColor();
+        if (square == gameBoardService.GameBoardSquareTypeEnum.SOLID) {
+            var color = shadeColor1($scope.getGameColor(), 20);
+            return color;
         } else {
             return gameBoardService.TetrominoColors[square];
         }
-        
 
     };
 
     //returns the color of the game board depending on the level
     $scope.getGameColor = function () {
 
-        return gameBoardService.GameBoardColors[(gameData.level % gameBoardService.GameBoardColors.length) ];
+        return gameBoardService.GameBoardColors[(gameData.level % gameBoardService.GameBoardColors.length)];
 
     };
 
@@ -156,19 +155,19 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         } else {
             return gameBoardService.TetrominoColors[square];
         }
-    }
+    };
 
     $scope.getSquareCssClass = function (y, x) {
         var square = $scope.gameData.board[y][x];
 
         if (square == gameBoardService.GameBoardSquareTypeEnum.EMPTY) {
             return "Square ";
-    } else if (square == gameBoardService.GameBoardSquareTypeEnum.SOLID) {
+        } else if (square == gameBoardService.GameBoardSquareTypeEnum.SOLID) {
             return "Square SolidSquare";
         } else {
             return "Square TetrominoSquare";
         }
-    }
+    };
 
     //save a new highscore
     $scope.saveHighscore = function () {
@@ -177,7 +176,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         highscore.Name = $('#txtName').val();
         highscore.Score = gameData.score;
 
-        if(highscore.Name.length == 0) {
+        if (highscore.Name.length == 0) {
             alert("Please enter your name!");
             return;
         }
@@ -190,8 +189,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             alert(errMsg);
         });
 
-    }
-
+    };
 
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     function GetDelay() {
@@ -208,7 +206,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         return delay;
 
     }
-
 
     //Returns a random Tetromino. A bag of all 7 tetrominoes are randomly shuffled and put in the field of play. Every tetromino is guarenteed to appear 
     //once every 7 turns and you'll never see a run of 3 consecutive pieces of the same kind.
@@ -258,7 +255,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         $scope.gameData.running = false;
         $scope.gameData.lines = 0;
         $scope.gameData.score = 0;
-        $scope.gameData.level = 11;
+        $scope.gameData.level = 1;
         $scope.gameData.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
         $scope.gameData.tetrominoHistory = "";
         $scope.gameData.IsHighscore = false;
@@ -275,16 +272,15 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         //initialize game board
         $scope.gameData.board = new Array(gameBoardService.boardSize.h);
         for (var y = 0; y < gameBoardService.boardSize.h; y++) {
-            $scope.gameData.board[y]= new Array(gameBoardService.boardSize.w);
+            $scope.gameData.board[y] = new Array(gameBoardService.boardSize.w);
             for (var x = 0; x < gameBoardService.boardSize.w; x++)
                 $scope.gameData.board[y][x] = 0;
         }
 
         //show the first falling tetromino 
-        gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board,"add");
+        gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "add");
 
-    };
-
+    }
 
     //Game is over. Check if there is a new highscore
     function GameOver() {
@@ -319,7 +315,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
             gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "remove");
             $scope.gameData.fallingTetromino.y++;
-            gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board,"add");
+            gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "add");
 
         } else {
 
@@ -357,7 +353,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                 if (!tetrominoCanFall) {
                     GameOver();
                 } else {
-                    gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board,"add");
+                    gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "add");
                 }
 
 
@@ -372,7 +368,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     }
 
-
     //call the highscoreService to get the highscores and save result in the scope
     function GetHighscores() {
 
@@ -384,7 +379,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         });
     }
 
-
     //Sync the scope with the view
     function UpdateView() {
 
@@ -392,6 +386,11 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             $scope.$apply();
         }
 
+    }
+
+    function shadeColor1(color, percent) {  // deprecated. See below.
+        var num = parseInt(color.slice(1), 16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
+        return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
     }
 
 
