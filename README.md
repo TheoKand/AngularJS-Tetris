@@ -4,7 +4,7 @@ This is an original AngularJS + Javascript version of the most popular video gam
 
 Demo: http://angulartetris20170918013407.azurewebsites.net/AngularJS-App/
 
-<img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png" style="width:200px"><img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png" style="width:200px"><img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/3.png" style="width:200px">
+<img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png" width="280"> <img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png" width="280"> <img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/3.png" width="280">
 
 # Tech stack
 The project is built using the following technologies:
