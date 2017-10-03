@@ -8,8 +8,13 @@
 
     <script src="/Scripts/angular.js"></script>
     <script src="/Scripts/angular-route.js"></script>
+
+    <!-- include angular app scripts-->
     <script src="app.js"></script>
+    <script src="services/gameDataService.js"></script>
+    <script src="services/highscoreService.js"></script>
     <script src="controllers/gameController.js"></script>
+    
 
     <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap.min.css" />
@@ -24,9 +29,9 @@
     <div class="container">
         <div class="row">
             <div>
-                
+
                 <div class="dropdown">
-                    <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{startButtonText}}</button>
+                    <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{gameData.startButtonText}}</button>
                     <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                         More
                         <span class="caret"></span>
@@ -55,16 +60,17 @@
                 <div id="Game" ng-class="{ 'blur': paused }">
 
                     <div id="GameInfo">
-                        Score: <b>{{score}}</b><br />
-                        Level: <b>{{level}}</b><br />
+                        Score: <b>{{gameData.score}}</b><br />
+                        Level: <b>{{gameData.level}}</b><br />
                         Next:
-                        <div ng-repeat="row in nextTetrominoSquares track by $id($index)">
-                            <div ng-repeat="col in nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
+                        <div ng-repeat="row in gameData.nextTetrominoSquares track by $id($index)">
+                            <div ng-repeat="col in gameData.nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
                             </div>
                         </div>
                     </div>
-                    <div ng-repeat="row in board track by $id($index)">
-                        <div ng-repeat="col in board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="background-color:{{ getSquareColor($parent.$index,$index) }}">
+                    <div ng-repeat="row in gameData.board track by $id($index)">
+                        <div ng-repeat="col in gameData.board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="background-color:{{ getSquareColor($parent.$index,$index) }}">
+                            {{ gameData.board[row][col] }}
                         </div>
                     </div>
                 </div>
@@ -203,7 +209,7 @@
                 <div class="modal-body">
 
                     <p>
-                        <b>Your score is {{score}}</b>
+                        <b>Your score is {{gameData.score}}</b>
                     </p>
 
                     <table class="table table-striped">
@@ -233,7 +239,7 @@
 
 
 
-                    <div ng-style="IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
+                    <div ng-style="gameData.IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
                         Please enter your name: <input id="txtName" type="text" />
                         <button ng-click="saveHighscore()" type="button" class="btn btn-sm btn-success">OK</button>
                     </div>
