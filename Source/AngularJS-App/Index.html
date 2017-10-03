@@ -8,8 +8,11 @@
 
     <script src="/Scripts/angular.js"></script>
     <script src="/Scripts/angular-route.js"></script>
+
+    <!-- include angular app scripts-->
     <script src="app.js"></script>
     <script src="controllers/gameController.js"></script>
+    <script src="services/highscoreService.js"></script>
 
     <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap.min.css" />
@@ -24,7 +27,7 @@
     <div class="container">
         <div class="row">
             <div>
-                
+
                 <div class="dropdown">
                     <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{startButtonText}}</button>
                     <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
