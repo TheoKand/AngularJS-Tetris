@@ -12,9 +12,9 @@
     <!-- include angular app scripts-->
     <script src="app.js"></script>
     <script src="services/gameDataService.js"></script>
+    <script src="services/gameBoardService.js"></script>
     <script src="services/highscoreService.js"></script>
     <script src="controllers/gameController.js"></script>
-    
 
     <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/Content/bootstrap.min.css" />
@@ -22,6 +22,7 @@
     <script src="/Scripts/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/Content/Site.css" />
+    <link rel="shortcut icon" href="">
 
 </head>
 <body ng-controller="gameController" style="background-color:{{ getGameColor() }}">
@@ -57,7 +58,7 @@
 
             <div class="text-center">
 
-                <div id="Game" ng-class="{ 'blur': paused }">
+                <div id="Game" ng-class="{ 'blur': gameData.paused }">
 
                     <div id="GameInfo">
                         Score: <b>{{gameData.score}}</b><br />

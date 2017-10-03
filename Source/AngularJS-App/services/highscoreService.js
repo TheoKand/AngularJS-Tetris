@@ -26,4 +26,4 @@ app.factory('highscoreService', function ($http) {
     };
 
     return obj;
-})
+});

@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AngularJS-App\controllers\gameController.js" />
+    <Content Include="AngularJS-App\services\gameBoardService.js" />
     <Content Include="AngularJS-App\services\gameDataService.js" />
     <Content Include="AngularJS-App\services\highscoreService.js" />
     <Content Include="Content\bootstrap-theme.css" />
