@@ -10,39 +10,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     GetHighscores();
 
-    //call the highscoreService to get the highscores and save result in the scope
-    function GetHighscores() {
-
-        highscoreService.get(function (highscores) {
-            $scope.highscores = highscores;
-            UpdateView();
-        }, function (errMsg) {
-            alert(errMsg);
-        });
-    }
-
-    //save a new highscore
-    $scope.saveHighscore = function () {
-
-        var highscore = new Object();
-        highscore.Name = $('#txtName').val();
-        highscore.Score = gameData.score;
-
-        if (highscore.Name.length == 0) {
-            alert("Please enter your name!");
-            return;
-        }
-
-        //call the highscores service to save the new score
-        highscoreService.put(highscore, function () {
-            $scope.gameData.IsHighscore = false;
-            GetHighscores();
-        }, function (errMsg) {
-            alert(errMsg);
-        });
-
-    }
-
     //handle keyboard event. The tetromino is moved or rotated
     $(document).keydown(function (e) {
 
@@ -165,14 +132,20 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
     $scope.getSquareColor = function (y, x) {
 
         var square = $scope.gameData.board[y][x];
-        return gameBoardService.TetrominoColors[square];
+
+        if (square==gameBoardService.GameBoardSquareTypeEnum.SOLID) {
+            return $scope.getGameColor();
+        } else {
+            return gameBoardService.TetrominoColors[square];
+        }
+        
 
     };
 
     //returns the color of the game board depending on the level
     $scope.getGameColor = function () {
 
-        return gameBoardService.GameBoardColors[(gameData.level % 9) -1];
+        return gameBoardService.GameBoardColors[(gameData.level % gameBoardService.GameBoardColors.length) ];
 
     };
 
@@ -196,6 +169,29 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             return "Square TetrominoSquare";
         }
     }
+
+    //save a new highscore
+    $scope.saveHighscore = function () {
+
+        var highscore = new Object();
+        highscore.Name = $('#txtName').val();
+        highscore.Score = gameData.score;
+
+        if(highscore.Name.length == 0) {
+            alert("Please enter your name!");
+            return;
+        }
+
+        //call the highscores service to save the new score
+        highscoreService.put(highscore, function () {
+            $scope.gameData.IsHighscore = false;
+            GetHighscores();
+        }, function (errMsg) {
+            alert(errMsg);
+        });
+
+    }
+
 
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     function GetDelay() {
@@ -245,8 +241,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             randomTetrominoType = Math.floor((Math.random() * 7) + 2);
         }
 
-        $scope.tetrads = $scope.tetrads + '\n' + randomTetrominoType;
-
         //keep a list of fallen tetrominos
         if ($scope.gameData.tetrominoHistory != "") $scope.gameData.tetrominoHistory = $scope.gameData.tetrominoHistory + ",";
         $scope.gameData.tetrominoHistory = $scope.gameData.tetrominoHistory + randomTetrominoType;
@@ -264,7 +258,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         $scope.gameData.running = false;
         $scope.gameData.lines = 0;
         $scope.gameData.score = 0;
-        $scope.gameData.level = 1;
+        $scope.gameData.level = 11;
         $scope.gameData.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
         $scope.gameData.tetrominoHistory = "";
         $scope.gameData.IsHighscore = false;
@@ -339,7 +333,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
                 //clear completed lines
                 var howManyLinesCompleted = 0;
-                while (CheckForTetris()) {
+                while (gameBoardService.checkForTetris($scope.gameData)) {
                     howManyLinesCompleted++;
                 }
                 if (howManyLinesCompleted > 0) {
@@ -378,46 +372,18 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     }
 
-    //check if any lines were completed
-    function CheckForTetris() {
 
-        for (var y = gameBoardService.boardSize.h -1; y > 0; y--) {
+    //call the highscoreService to get the highscores and save result in the scope
+    function GetHighscores() {
 
-            var lineIsComplete = true;
-            for (var x = 0; x < gameBoardService.boardSize.w; x++) {
-                if ($scope.gameData.board[y][x]!= gameBoardService.GameBoardSquareTypeEnum.SOLID) {
-                    lineIsComplete = false;
-                    break;
-                }
-            }
-
-            if (lineIsComplete) {
-                $scope.gameData.lines++;
-                gameData.score = gameData.score + 100 + (gameData.level - 1) * 50;
-
-                //move everything downwards
-                for (var fallingY = y; fallingY > 0; fallingY--) {
-                    for (var x = 0; x < gameBoardService.boardSize.w; x++) {
-                        $scope.gameData.board[fallingY][x] = $scope.gameData.board[fallingY - 1][x];
-                    }
-                }
-
-
-                //check if current level is completed
-                if ($scope.gameData.lines % 5 == 0) {
-                    gameData.level++;
-                }
-
-                return true;
-
-
-            }
-
-        }
-
-        return false;
-
+        highscoreService.get(function (highscores) {
+            $scope.highscores = highscores;
+            UpdateView();
+        }, function (errMsg) {
+            alert(errMsg);
+        });
     }
+
 
     //Sync the scope with the view
     function UpdateView() {

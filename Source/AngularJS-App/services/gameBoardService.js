@@ -10,8 +10,8 @@ app.factory('gameBoardService', function () {
     //define various constants
     factory.boardSize = { w: 10, h: 20 };
     factory.TetrominoTypeEnum = { LINE: 2, BOX: 3, INVERTED_T: 4, S: 5, Z: 6, L: 7, INVERTED_L: 8 };
-    factory.TetrominoColors = ["white", "#4A235A", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
-    factory.GameBoardColors = ["#f5f5f5", "#FCF3CF", "#EBEDEF", "#CCD1D1", "#F5EEF8", "#D2B4DE", "#D4EFDF", "#58D68D", "#FEF9E7", "#EDBB99"];
+    factory.TetrominoColors = ["white", "darkviolet", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
+    factory.GameBoardColors = ["#2200FF", "#0066FF", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#FFE100", "#FFAA00", "#FF7400","#FF2B00","#FF0000","#000000"];
     factory.GameBoardSquareTypeEnum = { EMPTY: 0, SOLID: 1 };
 
     //The various tetromino types are defined here. Each one has a series of squares that this function returns
@@ -176,10 +176,6 @@ app.factory('gameBoardService', function () {
                     //   |
                     // - |
                     //   |
-
-                    arr[0] = new Array(2);
-                    arr[1] = new Array(2);
-                    arr[2] = new Array(2);
 
                     arr[0][1] = factory.TetrominoTypeEnum.INVERTED_T;
                     arr[1][1] = factory.TetrominoTypeEnum.INVERTED_T;
@@ -346,7 +342,6 @@ app.factory('gameBoardService', function () {
         return factory.checkIfTetrominoCanGoThere(newTetromino, board);
     }
 
-
     //This method can be used for 3 different actions:
     //1. add a tetromino on the board (action="add")
     //2. remove a tetromino from the board (action="remove")
@@ -373,6 +368,46 @@ app.factory('gameBoardService', function () {
             }
         }
 
+
+    }
+
+    //check if any lines were completed
+    factory.checkForTetris = function (gameData) {
+
+        for (var y = factory.boardSize.h - 1; y > 0; y--) {
+
+            var lineIsComplete = true;
+            for (var x = 0; x < factory.boardSize.w; x++) {
+                if (gameData.board[y][x] != factory.GameBoardSquareTypeEnum.SOLID) {
+                    lineIsComplete = false;
+                    break;
+                }
+            }
+
+            if (lineIsComplete) {
+                gameData.lines++;
+                gameData.score = gameData.score + 100 + (gameData.level - 1) * 50;
+
+                //move everything downwards
+                for (var fallingY = y; fallingY > 0; fallingY--) {
+                    for (var x = 0; x < factory.boardSize.w; x++) {
+                        gameData.board[fallingY][x] = gameData.board[fallingY - 1][x];
+                    }
+                }
+
+                //check if current level is completed
+                if (gameData.lines % 5 == 0) {
+                    gameData.level++;
+                }
+
+                return true;
+
+
+            }
+
+        }
+
+        return false;
 
     }
 
