@@ -396,14 +396,14 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                 if (howManyLinesCompleted > 0) {
 
                     if (howManyLinesCompleted == 1)
-                        $("#Game").effect("shake", { direction: "left", distance: "10",times: 3 }, 500);
+                        $("#Game").effect("shake", { direction: "left", distance: "5",times: 3 }, 500);
                     else if (howManyLinesCompleted == 2)
-                        $("#Game").effect("shake", { direction: "left", distance: "20", times: 4 }, 600);
+                        $("#Game").effect("shake", { direction: "left", distance: "10", times: 4 }, 600);
                     else if (howManyLinesCompleted == 3)
-                        $("#Game").effect("shake", { direction: "left", distance: "30", times: 5 }, 700);
+                        $("#Game").effect("shake", { direction: "left", distance: "15", times: 5 }, 700);
                     else if (howManyLinesCompleted == 4) {
-                        $("#Game").effect("shake", { direction: "left", distance: "50", times: 4 }, 500);
-                        $("#Game").effect("shake", { direction: "up", distance: "50", times: 4 }, 500);
+                        $("#Game").effect("shake", { direction: "left", distance: "30", times: 4 }, 500);
+                        $("#Game").effect("shake", { direction: "up", distance: "30", times: 4 }, 500);
                     }
 
                     var scoreFontSize = 25 + (howManyLinesCompleted - 1) * 15;
