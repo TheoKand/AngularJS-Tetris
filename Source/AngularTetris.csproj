@@ -102,8 +102,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AngularJS-App\controllers\gameController.js" />
+    <Content Include="AngularJS-App\media\Drop.mp3" />
+    <Content Include="AngularJS-App\media\GameOver.mp3" />
+    <Content Include="AngularJS-App\media\LineComplete_1.mp3" />
+    <Content Include="AngularJS-App\media\LineComplete_2.mp3" />
+    <Content Include="AngularJS-App\media\LineComplete_3.mp3" />
+    <Content Include="AngularJS-App\media\LineComplete_4.mp3" />
+    <Content Include="AngularJS-App\media\NextLevel.mp3" />
+    <Content Include="AngularJS-App\media\Rotate.mp3" />
+    <Content Include="AngularJS-App\media\Solidify.mp3" />
     <Content Include="AngularJS-App\services\gameBoardService.js" />
     <Content Include="AngularJS-App\services\gameDataService.js" />
+    <Content Include="AngularJS-App\services\soundEffectsService.js" />
     <Content Include="AngularJS-App\services\highscoreService.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

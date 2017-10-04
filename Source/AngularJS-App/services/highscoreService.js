@@ -3,10 +3,10 @@
 //Query the WebAPI action to get the list of highscores
 app.factory('highscoreService', function ($http) {
 
-    var obj = {};
+    var factory = {};
 
     //Query the WebAPI action method to get the list of highscores
-    obj.get = function (successCallback, errorCallback) {
+    factory.get = function (successCallback, errorCallback) {
 
         $http.get("/api/highscores").then(
             (response) =>successCallback(response.data),
@@ -16,7 +16,7 @@ app.factory('highscoreService', function ($http) {
 
 
     //post the new highscore to the WebAPI action method
-    obj.put = function (highscoreObj, successCallback, errorCallback) {
+    factory.put = function (highscoreObj, successCallback, errorCallback) {
 
         $http.post("/api/highscores", highscoreObj).then(
             () => successCallback(),
@@ -25,5 +25,5 @@ app.factory('highscoreService', function ($http) {
 
     };
 
-    return obj;
+    return factory;
 });

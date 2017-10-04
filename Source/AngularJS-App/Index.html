@@ -14,6 +14,7 @@
     <script src="services/gameDataService.js"></script>
     <script src="services/gameBoardService.js"></script>
     <script src="services/highscoreService.js"></script>
+    <script src="services/soundEffectsService.js"></script>
     <script src="controllers/gameController.js"></script>
 
     <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
@@ -38,7 +39,7 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" data-toggle="modal" data-target="#InfoModal">Info</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#InfoHighscores" id="btnHighscores">Highscores</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#InfoGameover" id="btnGameover" style="display:none">Highscores</a></li>
                     </ul>
@@ -110,7 +111,7 @@
 
     <!-- information area -->
     <div class="modal fade" id="InfoModal" role="dialog">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -119,30 +120,20 @@
                 </div>
                 <div class="modal-body">
 
-                    <p>
-                        This is an original AngularJS + Javascript version of the most popular video game ever.
-                    </p>
-                    <p>
-                        It is built using the following technologies:
-
-                        <ul>
-                            <li>Javascript</li>
-                            <li>AngularJS 1.6.4</li>
-                            <li>Bootstrap 3.3.7</li>
-                            <li>JQuery 1.9.1</li>
-                            <li>WebAPI</li>
-                            <li>MySql + Entity Framework</li>
-                        </ul>
-
-
-                    </p>
+                    This is an original AngularJS + Javascript version of the most popular video game ever.
 
                     <h4>Control</h4>
                     <p>Use the arrow keys LEFT, RIGHT to move the tetromino, UP to rotate and DOWN to accelarate. If you are using a mobile device, a virtual on-screen keyboard will appear.</p>
 
                     <h4>Source code</h4>
+
                     <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on September 2017. </p>
                     <p><a class="btn btn-default" href="https://github.com/TheoKand/AngularTetris">Browse &raquo;</a></p>
+
+                    <p>
+                        It is built using Javascript, AngularJS, Bootstrap 3.3.7, JQuery, WebAPI, MySql, Entity Framework
+                    </p>
+
 
                 </div>
                 <div class="modal-footer">
@@ -155,7 +146,7 @@
 
     <!-- highscores area -->
     <div class="modal fade" id="InfoHighscores" role="dialog">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -201,7 +192,7 @@
 
     <!-- gameover area -->
     <div class="modal fade" id="InfoGameover" role="dialog">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>

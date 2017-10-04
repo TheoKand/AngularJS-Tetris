@@ -52,7 +52,7 @@
 #Game {
     background-color: white;
     width: 450px;
-    height: 800px;
+    height: 760px;
     box-shadow: 5px 5px 2px grey;
 }
 
@@ -80,7 +80,7 @@
 
 .Square {
     width: 45px;
-    height: 40px;
+    height: 38px;
     margin: 0px;
     float: left;
     border: 0;
