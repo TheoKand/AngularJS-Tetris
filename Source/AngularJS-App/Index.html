@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/Content/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="/Content/css/bootstrap.min.css" />
     <script src="/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script src="/Scripts/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/Content/css/Site.css" />
@@ -66,7 +67,7 @@
                 <div id="Game" ng-class="{ 'blur': gameData.paused }">
 
                     <div id="GameInfo">
-                        Score: <b>{{gameData.score}}</b><br />
+                        Score: <b style="font-size:14px" class="GameScoreValue">{{gameData.score}}</b><br />
                         Level: <b>{{gameData.level}}</b><br />
                         Next:
                         <div ng-repeat="row in gameData.nextTetrominoSquares track by $id($index)">

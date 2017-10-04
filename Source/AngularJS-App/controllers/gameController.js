@@ -26,6 +26,9 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
                 var tetrominoAfterMovement = { x: $scope.gameData.fallingTetromino.x - 1, y: $scope.gameData.fallingTetromino.y, type: $scope.gameData.fallingTetromino.type, rotation: $scope.gameData.fallingTetromino.rotation };
                 if (gameBoardService.checkIfTetrominoCanGoThere(tetrominoAfterMovement, $scope.gameData.board)) {
+
+                    soundEffectsService.play(soundEffectsService.SoundEffectEnum.Rotate);
+
                     //remove tetromino from current position
                     gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "remove");
                     //move tetromino
@@ -65,6 +68,9 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
                 var tetrominoAfterMovement = { x: $scope.gameData.fallingTetromino.x + 1, y: $scope.gameData.fallingTetromino.y, type: $scope.gameData.fallingTetromino.type, rotation: $scope.gameData.fallingTetromino.rotation };
                 if (gameBoardService.checkIfTetrominoCanGoThere(tetrominoAfterMovement, $scope.gameData.board)) {
+
+                    soundEffectsService.play(soundEffectsService.SoundEffectEnum.Rotate);
+
                     //remove tetromino from current position
                     gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "remove");
                     //move tetromino
@@ -386,7 +392,24 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                 while (gameBoardService.checkForTetris($scope.gameData)) {
                     howManyLinesCompleted++;
                 }
+
                 if (howManyLinesCompleted > 0) {
+
+                    if (howManyLinesCompleted == 1)
+                        $("#Game").effect("shake", { direction: "left", distance: "10",times: 3 }, 500);
+                    else if (howManyLinesCompleted == 2)
+                        $("#Game").effect("shake", { direction: "left", distance: "20", times: 4 }, 600);
+                    else if (howManyLinesCompleted == 3)
+                        $("#Game").effect("shake", { direction: "left", distance: "30", times: 5 }, 700);
+                    else if (howManyLinesCompleted == 4) {
+                        $("#Game").effect("shake", { direction: "left", distance: "50", times: 4 }, 500);
+                        $("#Game").effect("shake", { direction: "up", distance: "50", times: 4 }, 500);
+                    }
+
+                    var scoreFontSize = 25 + (howManyLinesCompleted - 1) * 15;
+                    $(".GameScoreValue").animate({ fontSize: scoreFontSize + "px" }, "fast");
+                    $(".GameScoreValue").animate({ fontSize: "14px" }, "fast");
+
                     //give extra points for multiple lines
                     $scope.gameData.score = $scope.gameData.score + 50 * (howManyLinesCompleted - 1);
                     if (howManyLinesCompleted == 4) {
