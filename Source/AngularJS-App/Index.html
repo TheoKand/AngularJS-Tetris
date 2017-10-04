@@ -10,6 +10,7 @@
     <script src="/Scripts/angular-route.js"></script>
 
     <!-- include angular app scripts-->
+    <script src="cookies.js"></script>
     <script src="app.js"></script>
     <script src="services/gameDataService.js"></script>
     <script src="services/gameBoardService.js"></script>
@@ -40,8 +41,11 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#InfoHighscores" id="btnHighscores">Highscores</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#InfoGameover" id="btnGameover" style="display:none">Highscores</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#InfoHighscores">Highscores</a></li>
+                        <li><a href="#" ng-click="SaveGame()">Save Game</a></li>
+                        <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#InfoGameover" id="btnGameover" style="display:none"></a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#InfoGeneric" id="btnGenericModal"></a></li>
                     </ul>
                 </div>
 
@@ -150,7 +154,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title">Highscores </h2> 
+                    <h2 class="modal-title">Highscores </h2>
                 </div>
                 <div class="modal-body">
 
@@ -236,7 +240,7 @@
                     <div ng-style="gameData.IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
                         Please enter your name: <input id="txtName" type="text" />
                         <button ng-click="saveHighscore()" type="button" id="btnSaveHighscore" class="btn btn-sm btn-success">SAVE</button> <img src="../Content/images/PleaseWait.gif" style="height:50px" ng-style="PleaseWait_SaveHighscores ? { 'display':'block'} : { 'display': 'none' }" />
-                        
+
                     </div>
 
                 </div>
@@ -245,7 +249,26 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- generic modal area -->
+    <div class="modal fade" id="InfoGeneric" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">{{ GenericModal.Title }}</h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        {{ GenericModal.Text }}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
