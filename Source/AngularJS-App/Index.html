@@ -17,12 +17,12 @@
     <script src="services/soundEffectsService.js"></script>
     <script src="controllers/gameController.js"></script>
 
-    <link rel="stylesheet" href="/Content/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Content/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="/Content/css/bootstrap.min.css" />
     <script src="/Scripts/jquery-1.9.1.min.js"></script>
     <script src="/Scripts/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="/Content/Site.css" />
+    <link rel="stylesheet" href="/Content/css/Site.css" />
     <link rel="shortcut icon" href="">
 
 </head>
@@ -150,7 +150,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title">Highscores</h2>
+                    <h2 class="modal-title">Highscores </h2> 
                 </div>
                 <div class="modal-body">
 
@@ -178,6 +178,8 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <img src="../Content/images/PleaseWait.gif" ng-style="PleaseWait_GetHighscores ? { 'display':'block'} : { 'display': 'none' }" />
 
                     You must score {{highscores[highscores.length-1].Score}} or more to get in the highscores!
 
@@ -233,7 +235,8 @@
 
                     <div ng-style="gameData.IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
                         Please enter your name: <input id="txtName" type="text" />
-                        <button ng-click="saveHighscore()" type="button" class="btn btn-sm btn-success">OK</button>
+                        <button ng-click="saveHighscore()" type="button" id="btnSaveHighscore" class="btn btn-sm btn-success">SAVE</button> <img src="../Content/images/PleaseWait.gif" style="height:50px" ng-style="PleaseWait_SaveHighscores ? { 'display':'block'} : { 'display': 'none' }" />
+                        
                     </div>
 
                 </div>
