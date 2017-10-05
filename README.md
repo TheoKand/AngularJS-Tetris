@@ -4,6 +4,8 @@ This is an original AngularJS + Javascript version of the most popular video gam
 
 Demo: http://angulartetris20170918013407.azurewebsites.net/AngularJS-App/
 
+Featured on <a href="https://www.madewithangular.com/sites/angularjs-tetris" target="_blank"><img src="https://s3.amazonaws.com/madewithangular.com/img/34.png"></a>
+
 # Introduction
 The project conists of just one ASP.NET Web Application that contains both the server-side components and client-side components. The client-side AngularJS application is implemented in the subfolder AngularJS-App. The rest of the folders contain the server-side WebAPI functionality and database-related functionality.
 
