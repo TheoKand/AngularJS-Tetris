@@ -280,13 +280,11 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             $scope.gameData.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
         }
 
-        //rule about 3 consecutive pieces of the same kind. Can't have that.
+        //don't allow the same tetromino two consecutive times
         var cantHaveThisTetromino = 0;
-        if ($scope.gameData.tetrominoHistory.length > 2) {
+        if ($scope.gameData.tetrominoHistory.length > 0) {
             var ar = $scope.gameData.tetrominoHistory.split(",");
-            if ($scope.gameData.tetrominoHistory[0] == $scope.gameData.tetrominoHistory[1]) {
-                cantHaveThisTetromino = parseInt($scope.gameData.tetrominoHistory[0]);
-            }
+            cantHaveThisTetromino = parseInt($scope.gameData.tetrominoHistory[$scope.gameData.tetrominoHistory.length-1]);
         }
 
         var randomTetrominoType = Math.floor((Math.random() * 7) + 2);
