@@ -151,6 +151,34 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         }
     };
 
+    function AnimateBodyBackgroundColor() {
+
+
+        $("body").animate({
+            backgroundColor: shadeColor1($scope.getGameColor(), 50)
+        }, {
+            duration: 1500,
+            complete: function () {
+
+
+                $("body").animate({
+                    backgroundColor: $scope.getGameColor()
+                }, {
+                    duration: 1500,
+                    complete: function () {
+                        $("body").finish();
+                        setTimeout( AnimateBodyBackgroundColor , 3000 );
+                    }
+                });
+
+
+
+
+            }
+        });
+
+    }
+
     //init a new game and start the game loop timer, or pause game
     $scope.startGame = function () {
 
@@ -165,6 +193,10 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             $scope.gameData.running = true;
             gameInterval = setTimeout(Animate, GetDelay());
             $scope.gameData.startButtonText = "Pause";
+
+            AnimateBodyBackgroundColor();
+
+
 
         } else {
 
