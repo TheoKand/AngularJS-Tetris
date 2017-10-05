@@ -1,9 +1,9 @@
 # AngularJS Tetris
 
-<div style="float:right">
-As Featured on
-<a href="https://www.madewithangular.com/sites/angularjs-tetris" target="_blank"><img src="https://s3.amazonaws.com/madewithangular.com/img/34.png"></a>
-</div>
+
+<strong><small>As Featured on
+<a href="https://www.madewithangular.com/sites/angularjs-tetris" target="_blank"><img src="https://s3.amazonaws.com/madewithangular.com/img/34.png" style=" vertical-align: middle;padding-bottom: 4px;"></a>
+  </strong></small>
 
 This is an original AngularJS + Javascript version of the most popular video game ever. 
 
