@@ -3,6 +3,7 @@
 app.controller('gameController', function ($scope, highscoreService, gameBoardService,soundEffectsService, gameData) {
 
     var gameInterval = null;
+    var backgroundAnimationInfo = {};
 
     //The $scope.gameData service containing the score, current level etc must be accessed from the view (the html markup in Index.html), so it must be attached to the $scope
     $scope.gameData = gameData;
@@ -98,6 +99,9 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                     gameBoardService.modifyBoard($scope.gameData.fallingTetromino, $scope.gameData.board, "add");
 
                     UpdateView();
+                    //if (gameInterval) clearTimeout(gameInterval);
+                    //gameInterval = setTimeout(Animate,0);
+
                 } else {
                     soundEffectsService.play(soundEffectsService.SoundEffectEnum.CantGoThere);
                 }
@@ -153,25 +157,23 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     function AnimateBodyBackgroundColor() {
 
-
+        
         $("body").animate({
-            backgroundColor: shadeColor1($scope.getGameColor(), 50)
+            backgroundColor: backgroundAnimationInfo.AlternateColor
         }, {
-            duration: 1500,
+            duration: 1000,
             complete: function () {
 
 
                 $("body").animate({
-                    backgroundColor: $scope.getGameColor()
+                    backgroundColor: backgroundAnimationInfo.Color
                 }, {
-                    duration: 1500,
+                    duration: 1000,
                     complete: function () {
                         $("body").finish();
-                        setTimeout( AnimateBodyBackgroundColor , 3000 );
+                        AnimateBodyBackgroundColor();
                     }
                 });
-
-
 
 
             }
@@ -191,7 +193,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
             $scope.gameData.paused = false;
             $scope.gameData.running = true;
-            gameInterval = setTimeout(Animate, GetDelay());
+            gameInterval = setTimeout(Animate, 0);
             $scope.gameData.startButtonText = "Pause";
 
             AnimateBodyBackgroundColor();
@@ -204,9 +206,8 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             $scope.gameData.paused = true;
 
             $scope.gameData.startButtonText = "Continue";
-            if (gameInterval) {
-                clearTimeout(gameInterval);
-            }
+            if (gameInterval) clearTimeout(gameInterval);
+            
         }
 
     };
@@ -302,27 +303,43 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
         //refill bag if empty
         var isEmpty = true;
-        for (var i = 2; i < 8; i++) {
+        var availableTetrominos = [];
+        for (var i = 2; i <= 8; i++) {
             if ($scope.gameData.tetrominoBag[i] > 0) {
                 isEmpty = false;
-                break;
+                availableTetrominos.push(i);
             }
         }
         if (isEmpty) {
             $scope.gameData.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
+            availableTetrominos = [2, 3, 4, 5, 6, 7, 8];
         }
 
-        //don't allow the same tetromino two consecutive times
-        var cantHaveThisTetromino = 0;
-        if ($scope.gameData.tetrominoHistory.length > 0) {
-            var ar = $scope.gameData.tetrominoHistory.split(",");
-            cantHaveThisTetromino = parseInt($scope.gameData.tetrominoHistory[$scope.gameData.tetrominoHistory.length-1]);
+        if (availableTetrominos.length == 1) {
+
+            randomTetrominoType = availableTetrominos[0];
+
+        } else if (availableTetrominos.length <= 3) {
+
+            var randomNum = Math.floor((Math.random() * (availableTetrominos.length - 1)));
+            randomTetrominoType = availableTetrominos[randomNum];
+
+        } else {
+
+            //don't allow the same tetromino two consecutive times
+            var cantHaveThisTetromino = 0;
+            if ($scope.gameData.tetrominoHistory.length > 0) {
+                var ar = $scope.gameData.tetrominoHistory.split(",");
+                cantHaveThisTetromino = parseInt($scope.gameData.tetrominoHistory[$scope.gameData.tetrominoHistory.length - 1]);
+            }
+
+            var randomTetrominoType = Math.floor((Math.random() * 7) + 2);
+            while ($scope.gameData.tetrominoBag[randomTetrominoType] == 0 || (randomTetrominoType == cantHaveThisTetromino)) {
+                randomTetrominoType = Math.floor((Math.random() * 7) + 2);
+            }
+
         }
 
-        var randomTetrominoType = Math.floor((Math.random() * 7) + 2);
-        while ($scope.gameData.tetrominoBag[randomTetrominoType] == 0 || randomTetrominoType == cantHaveThisTetromino) {
-            randomTetrominoType = Math.floor((Math.random() * 7) + 2);
-        }
 
         //keep a list of fallen tetrominos
         if ($scope.gameData.tetrominoHistory != "") $scope.gameData.tetrominoHistory = $scope.gameData.tetrominoHistory + ",";
@@ -345,6 +362,8 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         $scope.gameData.tetrominoBag = [0, 0, 7, 7, 7, 7, 7, 7, 7];
         $scope.gameData.tetrominoHistory = "";
         $scope.gameData.IsHighscore = false;
+
+        backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: shadeColor1($scope.getGameColor(), 50) , Duration: 1500 - ($scope.level-1)*30 };
 
         //get next tetromino
         soundEffectsService.play(soundEffectsService.SoundEffectEnum.Drop);
@@ -448,6 +467,8 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
                     soundEffectsService.play(soundEffectsService.SoundEffectEnum.LineComplete.replace("{0}", howManyLinesCompleted));
                     if ($scope.gameData.level > currentLevel) soundEffectsService.play(soundEffectsService.SoundEffectEnum.NextLevel);
+
+                    backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: shadeColor1($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
                 }
 
                 //send next one
