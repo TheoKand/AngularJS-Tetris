@@ -3,7 +3,7 @@
 
 <strong><small>As Featured on
 
-<a href="https://www.madewithangular.com/sites/angularjs-tetris" target="_blank" style="vertical-align: middle;padding-bottom: 4px;"><img src="https://s3.amazonaws.com/madewithangular.com/img/34.png" ></a>
+<a href="https://www.madewithangular.com/sites/angularjs-tetris" target="_blank" ><img src="https://s3.amazonaws.com/madewithangular.com/img/34.png" ></a>
 
   </strong></small>
 
