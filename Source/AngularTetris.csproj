@@ -102,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AngularJS-App\controllers\gameController.js" />
-    <Content Include="AngularJS-App\cookies.js" />
     <Content Include="Content\media\CantGoThere.mp3" />
     <Content Include="Content\media\Drop.mp3" />
     <Content Include="Content\media\GameOver.mp3" />
