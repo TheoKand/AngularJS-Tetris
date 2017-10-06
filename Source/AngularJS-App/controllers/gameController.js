@@ -10,11 +10,13 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     GetHighscores();
 
+    AnimateBodyBackgroundColor();
+
     //show the information modal, only the first time
     var infoHasBeenDisplayed = getCookie("AngularTetris_InfoWasDisplayed");
     if (infoHasBeenDisplayed == "") {
         setCookie("AngularTetris_InfoWasDisplayed", true, 30);
-        $("#btnInfo").click();
+        $("#InfoModal").modal('show');
     }
 
     //handle keyboard event. The tetromino is moved or rotated
@@ -124,13 +126,13 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     };
 
-    //Save the game state in a cookie
+     //Save the game state in a cookie
     $scope.SaveGame = function () {
 
         setCookie("AngularTetris_GameState", $scope.gameData, 365);
 
-        $scope.GenericModal = { Title: "Game Saved", Text: "Your current game was saved. You can return to this game any time by clicking More > Restore Game." };
-        $("#btnGenericModal").click();
+        ShowMessage("Game Saved","Your current game was saved. You can return to this game any time by clicking More > Restore Game.");
+
     };
 
     //Restore the game state from a cookie
@@ -143,43 +145,14 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             
             UpdateView();
 
-            $scope.GenericModal = { Title: "Game Restored", Text: "The game was restored and your score is " + $scope.gameData.score + ". Close this window to resume your game." };
-            $("#btnGenericModal").click();
-
+            ShowMessage("Game Restored", "The game was restored and your score is " + $scope.gameData.score + ". Close this window to resume your game." );
 
         } else {
 
-            $scope.GenericModal = { Title: "", Text: "You haven't saved a game previously!" };
-            $("#btnGenericModal").click();
+            ShowMessage("", "You haven't saved a game previously!");
 
         }
     };
-
-    function AnimateBodyBackgroundColor() {
-
-        
-        $("body").animate({
-            backgroundColor: backgroundAnimationInfo.AlternateColor
-        }, {
-            duration: 1000,
-            complete: function () {
-
-
-                $("body").animate({
-                    backgroundColor: backgroundAnimationInfo.Color
-                }, {
-                    duration: 1000,
-                    complete: function () {
-                        $("body").finish();
-                        AnimateBodyBackgroundColor();
-                    }
-                });
-
-
-            }
-        });
-
-    }
 
     //init a new game and start the game loop timer, or pause game
     $scope.startGame = function () {
@@ -197,8 +170,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             $scope.gameData.startButtonText = "Pause";
 
             AnimateBodyBackgroundColor();
-
-
 
         } else {
 
@@ -218,7 +189,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         var square = $scope.gameData.board[y][x];
 
         if (square == gameBoardService.GameBoardSquareTypeEnum.SOLID) {
-            var color = shadeColor1($scope.getGameColor(), 20);
+            var color = makeColorLighter($scope.getGameColor(), 20);
             return color;
         } else {
             return gameBoardService.TetrominoColors[square];
@@ -300,7 +271,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
     //once every 7 turns and you'll never see a run of 3 consecutive pieces of the same kind.
     function GetNextRandomTetromino() {
 
-
         //refill bag if empty
         var isEmpty = true;
         var availableTetrominos = [];
@@ -340,7 +310,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
         }
 
-
         //keep a list of fallen tetrominos
         if ($scope.gameData.tetrominoHistory != "") $scope.gameData.tetrominoHistory = $scope.gameData.tetrominoHistory + ",";
         $scope.gameData.tetrominoHistory = $scope.gameData.tetrominoHistory + randomTetrominoType;
@@ -363,7 +332,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         $scope.gameData.tetrominoHistory = "";
         $scope.gameData.IsHighscore = false;
 
-        backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: shadeColor1($scope.getGameColor(), 50) , Duration: 1500 - ($scope.level-1)*30 };
+        backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: makeColorLighter($scope.getGameColor(), 50) , Duration: 1500 - ($scope.level-1)*30 };
 
         //get next tetromino
         soundEffectsService.play(soundEffectsService.SoundEffectEnum.Drop);
@@ -405,7 +374,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             }
         }
 
-        $("#btnGameover").click();
+        $("#InfoGameover").modal("show");
 
     }
 
@@ -468,7 +437,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                     soundEffectsService.play(soundEffectsService.SoundEffectEnum.LineComplete.replace("{0}", howManyLinesCompleted));
                     if ($scope.gameData.level > currentLevel) soundEffectsService.play(soundEffectsService.SoundEffectEnum.NextLevel);
 
-                    backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: shadeColor1($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
+                    backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: makeColorLighter($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
                 }
 
                 //send next one
@@ -524,10 +493,49 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     }
 
-    function shadeColor1(color, percent) {  // deprecated. See below.
+    //Changes the provided color to be this percent lighter
+    function makeColorLighter(color, percent) {
         var num = parseInt(color.slice(1), 16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
         return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
     }
+
+    //show a modal message 
+    function ShowMessage(title, text) {
+        $scope.GenericModal = { Title: title, Text: text };
+        $("#InfoGeneric").modal("show");
+    }
+
+    //animate the background color between two colors
+    function AnimateBodyBackgroundColor() {
+
+        if (!backgroundAnimationInfo.AlternateColor) {
+            backgroundAnimationInfo = { Color: gameBoardService.GameBoardColors[1], AlternateColor: makeColorLighter(gameBoardService.GameBoardColors[1], 50), Duration: 1500  };
+        }
+
+        $("body").animate({
+            backgroundColor: backgroundAnimationInfo.AlternateColor
+        }, {
+            duration: 1000,
+            complete: function () {
+
+
+                $("body").animate({
+                    backgroundColor: backgroundAnimationInfo.Color
+                }, {
+                    duration: 1000,
+                    complete: function () {
+                        $("body").finish();
+                        AnimateBodyBackgroundColor();
+                    }
+                });
+
+
+            }
+        });
+
+    }
+
+
 
 
 });
