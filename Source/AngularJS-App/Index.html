@@ -18,7 +18,7 @@
     <script src="controllers/gameController.js"></script>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-
+    
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 
@@ -45,20 +45,19 @@
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#InfoHighscores">Highscores</a></li>
-                        <li><a href="#" ng-click="SaveGame()">Save Game</a></li>
+                        <li ng-class="{ 'disabled': !gameData.running && !gameData.paused }" ><a href="#" ng-click="SaveGame()" >Save Game</a></li>
                         <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#InfoGameover" id="btnGameover" style="display:none"></a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#InfoGeneric" id="btnGenericModal"></a></li>
+
                     </ul>
                 </div>
 
-                <div class="hidden-sm hidden-xs text-center" style="float:right">
+                <div class="hidden-xs text-center" style="float:right">
                     <h2 style="display: inline; color:white; text-shadow: 1px 1px 3px black;">AngularJS Tetris</h2>
                     <br /><small>by <a href="https://github.com/TheoKand">Theo Kandiliotis</a></small>
                 </div>
 
-                <div class="hidden-md hidden-lg text-center" style="float:right">
-                    <h5 style="display: inline; color:white; text-shadow: 1px 1px 3px gray;">AngularJS Tetris</h5>
+                <div class="visible-xs text-center" style="float:right">
+                    <h4 style="display: inline; color:white; text-shadow: 1px 1px 3px gray;">AngularJS Tetris</h4>
                 </div>
 
                 <br style="clear:both" />
@@ -66,7 +65,7 @@
 
             <div class="text-center">
 
-                <div id="Game" ng-class="{ 'blur': gameData.paused }">
+                <div id="Game" ng-class="{ 'blur': gameData.paused || !gameData.running }">
 
                     <div id="GameInfo">
                         Score: <b style="font-size:14px" class="GameScoreValue">{{gameData.score}}</b><br />
@@ -122,25 +121,19 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title">AngularJS Tetris</h2>
-                    <br /><small>by <a href="https://github.com/TheoKand">Theo Kandiliotis</a></small>
+                    <h2 class="modal-title">AngularJS Tetris <small>by <a href="https://github.com/TheoKand">Theo Kandiliotis</a></small></h2>
                 </div>
                 <div class="modal-body">
 
-                    This is an original AngularJS + Javascript version of the most popular video game ever.
+                    This is an original AngularJS version of the most popular video game ever.
 
                     <h4>Control</h4>
                     <p>Use the arrow keys LEFT, RIGHT to move the tetromino, UP to rotate and DOWN to accelarate. If you are using a mobile device, a virtual on-screen keyboard will appear.</p>
 
                     <h4>Source code</h4>
 
-                    <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on September 2017. </p>
+                    <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on September 2017, using AngularJS, Bootstrap 3.3.7, JQuery, C#, WebAPI, MySql, Entity Framework. </p>
                     <p><a class="btn btn-default" href="https://github.com/TheoKand/AngularTetris">Browse &raquo;</a></p>
-
-                    <p>
-                        It is built using Javascript, AngularJS, Bootstrap 3.3.7, JQuery, WebAPI, MySql, Entity Framework
-                    </p>
-
 
                 </div>
                 <div class="modal-footer">
@@ -254,7 +247,7 @@
         </div>
     </div>
 
-    <!-- generic modal area -->
+    <!-- generic modal area. Used whenever we want to show a modal message in our SPA -->
     <div class="modal fade" id="InfoGeneric" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
