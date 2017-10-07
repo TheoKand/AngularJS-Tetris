@@ -13,7 +13,8 @@ app.value('gameData', {
     nextTetromino: null,
     nextTetrominoSquares: null,
     board: null,
-    tetrominoBag: [0, 0, 7, 7, 7, 7, 7, 7, 7],
+    tetrominoBag: [],
+    fullTetrominoBag: [0, 0,5, 5, 5, 5, 5, 5, 5],
     tetrominoHistory: "",
     isHighscore: false
 });
