@@ -26,42 +26,61 @@ app.getCookie = function (cname) {
     return "";
 };
 
-var audioFiles = [
-    "/content/media/Drop.mp3",
-    "/content/media/GameOver.mp3",
-    "/content/media/NextLevel.mp3",
-    "/content/media/Rotate.mp3",
-    "/content/media/CantGoThere.mp3",
-    "/content/media/LineComplete_1.mp3",
-    "/content/media/LineComplete_2.mp3",
-    "/content/media/LineComplete_3.mp3",
-    "/content/media/LineComplete_4.mp3",
-];
-
-function preloadAudio(url) {
-    var audio = new Audio();
-    // once this file loads, it will call loadedAudio()
-    // the file will be kept by the browser as cache
-    audio.addEventListener('canplaythrough', loadedAudio, false);
-    audio.src = url;
-}
-
-var loaded = 0;
-function loadedAudio() {
-    // this will be called every time an audio file is loaded
-    // we keep track of the loaded files vs the requested files
-    loaded++;
-    if (loaded == audioFiles.length) {
-        // all have loaded
-        init();
+//check if it's mobile device
+app.isMobile = function () {
+    if (new RegExp('Android|webOS|iPhone|iPad|BlackBerry|Windows Phone|Opera Mini|IEMobile|Mobile', 'i').test(navigator.userAgent)) {
+        return true;
+    } else {
+        return false;
     }
-}
+};
 
-function init() {
-    document.getElementsByClassName("preloading")[0].style.display = 'none';
-}
+//preload the audio files, only for non-mobile devices
+window.addEventListener('load', function () {
+    
+    var audioFiles = [
+        "/content/media/Drop.mp3",
+        "/content/media/GameOver.mp3",
+        "/content/media/NextLevel.mp3",
+        "/content/media/Rotate.mp3",
+        "/content/media/CantGoThere.mp3",
+        "/content/media/LineComplete_1.mp3",
+        "/content/media/LineComplete_2.mp3",
+        "/content/media/LineComplete_3.mp3",
+        "/content/media/LineComplete_4.mp3",
+    ];
+    var loaded = 0;
 
-// we start preloading all the audio files
-for (var i in audioFiles) {
-    preloadAudio(audioFiles[i]);
-}
+    function preloadAudio(url) {
+        var audio = new Audio();
+        // once this file loads, it will call loadedAudio() the file will be kept by the browser as cache
+        audio.addEventListener('canplaythrough', loadedAudio, false);
+        audio.src = url;
+    };
+
+    function loadedAudio() {
+        // this will be called every time an audio file is loaded we keep track of the loaded files vs the requested files
+        loaded++;
+        if (loaded == audioFiles.length) {
+            // all have loaded
+            finishedPreloading();
+        }
+    };
+
+    function finishedPreloading() {
+        document.getElementsByClassName("preloading")[0].style.display = 'none';
+        document.getElementsByClassName("container")[0].style.display = 'flex';
+    };
+
+  
+    if (app.isMobile()) {
+        finishedPreloading();
+    } else {
+        // we start preloading all the audio files
+        for (var i in audioFiles) {
+            preloadAudio(audioFiles[i]);
+        }
+    }
+
+
+}, false);
