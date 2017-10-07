@@ -36,7 +36,7 @@ app.isMobile = function () {
 };
 
 //define audio files
-app.SoundEffectEnum = { Drop: "Drop.mp3", GameOver: "GameOver.mp3", NextLevel: "NextLevel.mp3", Rotate: "Rotate.mp3", CantGoThere: "CantGoThere.mp3", LineComplete1: "LineComplete_1.mp3", LineComplete2: "LineComplete_2.mp3", LineComplete3: "LineComplete_3.mp3", LineComplete4: "LineComplete_4.mp3" };
+app.SoundEffectEnum = { Theme: "Theme.mp3", Drop: "Drop.mp3", GameOver: "GameOver.mp3", NextLevel: "NextLevel.mp3", Rotate: "Rotate.mp3", CantGoThere: "CantGoThere.mp3", LineComplete1: "LineComplete_1.mp3", LineComplete2: "LineComplete_2.mp3", LineComplete3: "LineComplete_3.mp3", LineComplete4: "LineComplete_4.mp3" };
 
 //preload the audio files, only for non-mobile devices
 window.addEventListener('load', function () {
