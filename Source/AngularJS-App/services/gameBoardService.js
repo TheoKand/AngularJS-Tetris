@@ -2,7 +2,6 @@
 
 // this factory contains the definition of tetrominos and their rotations. It also contains functions that
 // manipulate the game board array by moving tetrominos, solidifying, removing etc.
-
 app.factory('gameBoardService', function () {
 
     var factory = {};

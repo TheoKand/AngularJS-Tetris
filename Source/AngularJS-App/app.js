@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('myApp', [])
+var app = angular.module('myApp', []);
 
 //set a cookie
 app.setCookie = function (cname, cvalue, exdays) {
@@ -35,33 +35,25 @@ app.isMobile = function () {
     }
 };
 
+//define audio files
+app.SoundEffectEnum = { Drop: "Drop.mp3", GameOver: "GameOver.mp3", NextLevel: "NextLevel.mp3", Rotate: "Rotate.mp3", CantGoThere: "CantGoThere.mp3", LineComplete1: "LineComplete_1.mp3", LineComplete2: "LineComplete_2.mp3", LineComplete3: "LineComplete_3.mp3", LineComplete4: "LineComplete_4.mp3" };
+
 //preload the audio files, only for non-mobile devices
 window.addEventListener('load', function () {
     
-    var audioFiles = [
-        "/content/media/Drop.mp3",
-        "/content/media/GameOver.mp3",
-        "/content/media/NextLevel.mp3",
-        "/content/media/Rotate.mp3",
-        "/content/media/CantGoThere.mp3",
-        "/content/media/LineComplete_1.mp3",
-        "/content/media/LineComplete_2.mp3",
-        "/content/media/LineComplete_3.mp3",
-        "/content/media/LineComplete_4.mp3",
-    ];
-    var loaded = 0;
+    var totalAudioFiles = Object.keys(app.SoundEffectEnum).length;
 
     function preloadAudio(url) {
         var audio = new Audio();
         // once this file loads, it will call loadedAudio() the file will be kept by the browser as cache
         audio.addEventListener('canplaythrough', loadedAudio, false);
-        audio.src = url;
+        audio.src = '/content/media/' + url;
     };
 
     function loadedAudio() {
         // this will be called every time an audio file is loaded we keep track of the loaded files vs the requested files
-        loaded++;
-        if (loaded == audioFiles.length) {
+        totalAudioFiles--;
+        if (totalAudioFiles == 0) {
             // all have loaded
             finishedPreloading();
         }
@@ -77,8 +69,8 @@ window.addEventListener('load', function () {
         finishedPreloading();
     } else {
         // we start preloading all the audio files
-        for (var i in audioFiles) {
-            preloadAudio(audioFiles[i]);
+        for (var sound in app.SoundEffectEnum) {
+            preloadAudio(app.SoundEffectEnum[sound] );
         }
     }
 
