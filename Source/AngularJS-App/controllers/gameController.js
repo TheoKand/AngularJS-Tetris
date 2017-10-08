@@ -3,6 +3,7 @@
 app.controller('gameController', function ($scope, highscoreService, gameBoardService, soundEffectsService, gameData) {
 
     var gameInterval = null;
+
     var backgroundAnimationInfo = {};
 
     (function () {
@@ -110,8 +111,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             gameInterval = setTimeout(Animate, 0);
             gameData.startButtonText = "Pause";
 
-            AnimateBodyBackgroundColor();
-
         } else {
 
             gameData.running = false;
@@ -129,8 +128,8 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
         var square = gameData.board[y][x];
 
-        if (square == gameBoardService.GameBoardSquareTypeEnum.SOLID) {
-            var color = makeColorLighter($scope.getGameColor(), 20);
+        if (square < 0 ) {
+            var color = gameBoardService.TetrominoColors[Math.abs(square)];
             return color;
         } else {
             return gameBoardService.TetrominoColors[square];
@@ -147,7 +146,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
     $scope.getTetrominoColor = function (y, x) {
         var square = gameData.nextTetrominoSquares[y][x];
-        if (square == gameBoardService.GameBoardSquareTypeEnum.EMPTY) {
+        if (square == 0) {
             return $scope.getGameColor();
         } else {
             return gameBoardService.TetrominoColors[square];
@@ -157,9 +156,9 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
     $scope.getSquareCssClass = function (y, x) {
         var square = gameData.board[y][x];
 
-        if (square == gameBoardService.GameBoardSquareTypeEnum.EMPTY) {
+        if (square == 0) {
             return "Square ";
-        } else if (square == gameBoardService.GameBoardSquareTypeEnum.SOLID) {
+        } else if (square <0 ) {
             return "Square SolidSquare";
         } else {
             return "Square TetrominoSquare";
@@ -311,17 +310,16 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         //refill bag if empty
         var isEmpty = !gameData.tetrominoBag.some(function (a) { return a > 0; });
         var availableTetrominos = [];
-        for (var i = 2; i <= 8; i++) {
+
+        for (var i = 1; i <= 7; i++) {
             if (gameData.tetrominoBag[i] > 0) {
                 availableTetrominos.push(i);
             }
         }
 
-
-
         if (isEmpty) {
             gameData.tetrominoBag = JSON.parse(JSON.stringify(gameData.fullTetrominoBag));
-            availableTetrominos = [2, 3, 4, 5, 6, 7, 8];
+            availableTetrominos = [gameBoardService.TetrominoTypeEnum.LINE, gameBoardService.TetrominoTypeEnum.BOX, gameBoardService.TetrominoTypeEnum.INVERTED_T, gameBoardService.TetrominoTypeEnum.S, gameBoardService.TetrominoTypeEnum.Z, gameBoardService.TetrominoTypeEnum.L, gameBoardService.TetrominoTypeEnum.INVERTED_L];
         }
 
         if (availableTetrominos.length == 1) {
@@ -342,9 +340,9 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                 cantHaveThisTetromino = parseInt(gameData.tetrominoHistory[gameData.tetrominoHistory.length - 1]);
             }
 
-            var randomTetrominoType = Math.floor((Math.random() * 7) + 2);
+            var randomTetrominoType = Math.floor((Math.random() * 7) + 1);
             while (gameData.tetrominoBag[randomTetrominoType] == 0 || (randomTetrominoType == cantHaveThisTetromino)) {
-                randomTetrominoType = Math.floor((Math.random() * 7) + 2);
+                randomTetrominoType = Math.floor((Math.random() * 7) + 1);
             }
 
         }
@@ -567,13 +565,11 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             duration: 1000,
             complete: function () {
 
-
                 $("body").animate({
                     backgroundColor: backgroundAnimationInfo.Color
                 }, {
                     duration: 1000,
                     complete: function () {
-                        $("body").finish();
                         AnimateBodyBackgroundColor();
                     }
                 });

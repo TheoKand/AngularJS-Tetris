@@ -8,10 +8,9 @@ app.factory('gameBoardService', function () {
 
     //define various constants
     factory.boardSize = { w: 10, h: 20 };
-    factory.TetrominoTypeEnum = { LINE: 2, BOX: 3, INVERTED_T: 4, S: 5, Z: 6, L: 7, INVERTED_L: 8 };
-    factory.TetrominoColors = ["white", "darkviolet", "red", "green", "blue", "yellow", "orange", "magenta", "lightgray"];
+    factory.TetrominoTypeEnum = { LINE: 1, BOX: 2, INVERTED_T: 3, S: 4, Z: 5, L: 6, INVERTED_L: 7 };
+    factory.TetrominoColors = ["white", "#00F0F0", "#F0F000", "#A000F0", "#00F000", "#F00000", "#F0A000", "#6363FF"];
     factory.GameBoardColors = ["#0066FF", "#FFE100", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#2200FF", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"];
-    factory.GameBoardSquareTypeEnum = { EMPTY: 0, SOLID: 1 };
 
     //The various tetromino types are defined here. Each one has a series of squares that this function returns
     //as a two dimensional array. Some tetrominos can also be rotated which changes the square structure
@@ -322,7 +321,7 @@ app.factory('gameBoardService', function () {
                     }
 
                     //tetromino is blocked by another solid square
-                    if (board[boardY][boardX] == factory.GameBoardSquareTypeEnum.SOLID) {
+                    if (board[boardY][boardX] <0) {
                         return false;
                     }
                 }
@@ -351,14 +350,14 @@ app.factory('gameBoardService', function () {
         for (var y = 0; y < tetrominoSquares.length; y++) {
             for (var x = 0; x < tetrominoSquares[y].length; x++) {
 
-                if (tetrominoSquares[y][x] != null && tetrominoSquares[y][x] != factory.GameBoardSquareTypeEnum.EMPTY) {
+                if (tetrominoSquares[y][x] != null && tetrominoSquares[y][x] != 0) {
                     var boardY = tetromino.y + y;
                     var boardX = tetromino.x + x;
 
                     if (action == "solidify")
-                        board[boardY][boardX] = factory.GameBoardSquareTypeEnum.SOLID;
+                        board[boardY][boardX] = -tetromino.type;
                     else if (action == "remove")
-                        board[boardY][boardX] = factory.GameBoardSquareTypeEnum.EMPTY;
+                        board[boardY][boardX] = 0;
                     else if (action == "add")
                         board[boardY][boardX] = tetromino.type;
 
@@ -377,7 +376,7 @@ app.factory('gameBoardService', function () {
 
             var lineIsComplete = true;
             for (var x = 0; x < factory.boardSize.w; x++) {
-                if (gameData.board[y][x] != factory.GameBoardSquareTypeEnum.SOLID) {
+                if (gameData.board[y][x] >=0 ) {
                     lineIsComplete = false;
                     break;
                 }

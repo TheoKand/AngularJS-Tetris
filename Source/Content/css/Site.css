@@ -115,8 +115,13 @@ div.preloading {
 }
 
 .SolidSquare {
-    border: 1px solid darkgray;
+    border: 1px solid black;
     box-shadow: inset -1px 2px 4px white;
+    filter: blur(0.8px);
+    -webkit-filter: blur(0.8px);
+    -moz-filter: blur(0.8px);
+    -o-filter: blur(0.8px);
+    -ms-filter: blur(0.8px);
 }
 
 .SmallSquare {
