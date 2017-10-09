@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('gameController', function ($scope, highscoreService, gameBoardService, soundEffectsService, gameData) {
+app.controller('gameController', function ($scope, $timeout, highscoreService, gameBoardService, soundEffectsService, gameData) {
 
     var gameInterval = null;
 
@@ -18,6 +18,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
             app.setCookie("AngularTetris_InfoWasDisplayed", true, 30);
             $("#InfoModal").modal('show');
         }
+
     })();
 
     //The gameData service (singleton) must be accessible through the scope
@@ -57,17 +58,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         }
     };
 
-
-
-    //In small screen devices, a virtual keyboard is displayed 
-    $scope.VirtualKeyboardEvent = function (key) {
-
-        var e = $.Event('keydown');
-        e.which = key;
-        $(document).trigger(e);
-
-    };
-
     //Save the game state in a cookie
     $scope.SaveGame = function () {
 
@@ -84,8 +74,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
             $scope.startGame();
             gameData = gameState;
-
-            UpdateView();
 
             ShowMessage("Game Restored", "The game was restored and your score is " + gameData.score + ". Close this window to resume your game.");
 
@@ -108,7 +96,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
             gameData.paused = false;
             gameData.running = true;
-            gameInterval = setTimeout(Animate, 0);
+            gameInterval = $timeout(Animate, 0);
             gameData.startButtonText = "Pause";
 
         } else {
@@ -173,7 +161,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         highscore.Score = gameData.score;
 
         if (highscore.Name.length == 0) {
-            alert("Please enter your name!");
+            ShowMessage("", "Please enter your name!");
             return;
         }
 
@@ -192,11 +180,11 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
     };
 
     //handle keyboard event. The tetromino is moved or rotated
-    $(document).keydown(function (e) {
+    $scope.OnKeyDown = (function (key) {
 
         if (!gameData.running) return;
 
-        switch (e.which) {
+        switch (key) {
             case 37: // left
 
                 var tetrominoAfterMovement = { x: gameData.fallingTetromino.x - 1, y: gameData.fallingTetromino.y, type: gameData.fallingTetromino.type, rotation: gameData.fallingTetromino.rotation };
@@ -211,7 +199,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                     //add to new position
                     gameBoardService.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
 
-                    UpdateView();
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
                 }
@@ -233,7 +220,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                     //add to new position
                     gameBoardService.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
 
-                    UpdateView();
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
                 }
@@ -253,7 +239,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                     //add to new position
                     gameBoardService.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
 
-                    UpdateView();
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
                 }
@@ -272,8 +257,6 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
                     //add to new position
                     gameBoardService.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
 
-                    UpdateView();
-
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
                 }
@@ -283,7 +266,7 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
             default: return; // exit this handler for other keys
         }
-        e.preventDefault(); // prevent the default action (scroll / move caret)
+
 
     });
 
@@ -509,10 +492,8 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
 
         }
 
-        UpdateView();
-
         //set the game timer. The delay depends on the current level. The higher the level, the fastest the game moves (harder)
-        gameInterval = setTimeout(Animate, GetDelay());
+        gameInterval = $timeout(Animate, GetDelay());
 
     }
 
@@ -524,20 +505,10 @@ app.controller('gameController', function ($scope, highscoreService, gameBoardSe
         highscoreService.get(function (highscores) {
             $scope.PleaseWait_GetHighscores = false;
             $scope.highscores = highscores;
-            UpdateView();
         }, function (errMsg) {
             $scope.PleaseWait_GetHighscores = false;
             alert(errMsg);
         });
-    }
-
-    //Sync the scope with the view
-    function UpdateView() {
-
-        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
-            $scope.$apply();
-        }
-
     }
 
     //Changes the provided color to be this percent lighter

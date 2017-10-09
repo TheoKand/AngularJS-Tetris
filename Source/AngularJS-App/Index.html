@@ -9,18 +9,18 @@
     <link rel="shortcut icon" href="">
 
 </head>
-<body ng-controller="gameController" style="background-color:{{ getGameColor() }}">
+<body ng-keydown="OnKeyDown($event.which);" ng-controller="gameController" style="background-color:{{ getGameColor() }}">
 
     <div class="preloading">
-        <img src="../Content/images/TetrisAnimated.gif" style="width:300px"/>
+        <img src="../Content/images/TetrisAnimated.gif" style="width:300px" />
         <h1>... loading ...</h1>
     </div>
 
     <div class="container">
         <div class="row">
             <div>
-                
-                <a href="https://github.com/TheoKand" target="_blank"><img style="z-index:-1;position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+                <a href="https://github.com/TheoKand" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
 
                 <div class="dropdown">
                     <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{ getGameData().startButtonText }}</button>
@@ -28,16 +28,16 @@
                         More
                         <span class="caret"></span>
                     </button>
+
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#InfoHighscores">Highscores</a></li>
-                        <li><hr /></li>
+                        <li role="separator" class="divider"></li>
                         <li ng-class="{ 'disabled': !getGameData().running && !getGameData().paused }"><a href="#" ng-click="SaveGame()">Save Game</a></li>
                         <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
-                        <li><hr /></li>
+                        <li role="separator" class="divider"></li>
                         <li><a href="#" ng-click="SetMusic(!(GetMusic()))">Music : {{ GetMusic() ? "OFF" : "ON"}}</a></li>
                         <li><a href="#" ng-click="SetSoundFX(!(GetSoundFX()))">Sound Effects : {{ GetSoundFX() ? "OFF" : "ON"}}</a></li>
-
                     </ul>
                 </div>
 
@@ -79,13 +79,13 @@
 
                 <div id="TouchScreenController">
 
-                    <div style="width:100%;height:50px;border:1px solid black" ng-click="VirtualKeyboardEvent(38)">
+                    <div style="width:100%;height:50px;border:1px solid black" ng-click="OnKeyDown(38)">
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
 
                     </div>
 
-                    <div style="float:left;width:50%;height:50px;border-right:1px solid black;border-left:1px solid black;" ng-click="VirtualKeyboardEvent(37)">
+                    <div style="float:left;width:50%;height:50px;border-right:1px solid black;border-left:1px solid black;" ng-click="OnKeyDown(37)">
 
                         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 
@@ -93,13 +93,13 @@
 
                     <div style="float:left;width:50%;height:50px;border-right:1px solid black;">
 
-                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" ng-click="VirtualKeyboardEvent(39)"></span>
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" ng-click="OnKeyDown(39)"></span>
 
                     </div>
 
                     <div style="width:100%;height:50px;border:1px solid black;clear:both;">
 
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ng-click="VirtualKeyboardEvent(40)"></span>
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ng-click="OnKeyDown(40)"></span>
 
                     </div>
 
