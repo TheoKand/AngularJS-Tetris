@@ -121,26 +121,28 @@
     <Content Include="Content\images\PleaseWait.gif" />
     <Content Include="Content\media\theme.mp3" />
     <Content Include="Global.asax" />
-    <Content Include="Models\AngularTetrisDB.Context.tt">
+    <Content Include="Models\DbModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AngularTetrisDB.edmx</DependentUpon>
-      <LastGenOutput>AngularTetrisDB.Context.cs</LastGenOutput>
+      <DependentUpon>DbModel.edmx</DependentUpon>
+      <LastGenOutput>DbModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\AngularTetrisDB.tt">
+    <Content Include="Models\DbModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AngularTetrisDB.edmx</DependentUpon>
-      <LastGenOutput>AngularTetrisDB.cs</LastGenOutput>
+      <DependentUpon>DbModel.edmx</DependentUpon>
+      <LastGenOutput>DbModel.cs</LastGenOutput>
     </Content>
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\AngularTetrisDB.edmx">
+    <EntityDeploy Include="Models\DbModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AngularTetrisDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>DbModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\AngularTetrisDB.edmx.diagram">
-      <DependentUpon>AngularTetrisDB.edmx</DependentUpon>
+    <Content Include="Models\DbModel.edmx.diagram">
+      <DependentUpon>DbModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\AngularTetris20170918013407 - Web Deploy.pubxml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -158,23 +160,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AngularTetrisDB.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AngularTetrisDB.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AngularTetrisDB.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AngularTetrisDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AngularTetrisDB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AngularTetrisDB.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\angulartetris_highscores.cs">
-      <DependentUpon>AngularTetrisDB.tt</DependentUpon>
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

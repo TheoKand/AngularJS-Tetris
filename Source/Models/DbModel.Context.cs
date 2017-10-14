@@ -13,10 +13,10 @@ namespace App.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class oblivius_mysqlEntities : DbContext
+    public partial class AngularDBConnection : DbContext
     {
-        public oblivius_mysqlEntities()
-            : base("name=oblivius_mysqlEntities")
+        public AngularDBConnection()
+            : base("name=AngularDBConnection")
         {
         }
     

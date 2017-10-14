@@ -10,7 +10,7 @@ namespace App.Controllers
     public class HighscoresController : ApiController
     {
 
-        protected App.Models.oblivius_mysqlEntities db = new Models.oblivius_mysqlEntities();
+        protected App.Models.AngularDBConnection db = new Models.AngularDBConnection();
 
         // GET api/<controller>
         /// <summary>
