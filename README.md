@@ -27,7 +27,7 @@ The project is built using the following technologies:
 - Bootstrap 3.3.7
 - JQuery 1.9.1
 - WebAPI
-- MySql + Entity Framework
+- Entity Framework
 
 
 
