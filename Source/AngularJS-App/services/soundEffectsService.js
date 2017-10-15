@@ -8,7 +8,7 @@ app.factory('soundEffectsService', function ($http) {
 
     factory.playTheme = function () {
         if (isMobile) return;
-        themeAudio = new Audio('/content/media/' + app.SoundEffectEnum.Theme);
+        themeAudio = new Audio('assets/media/' + app.SoundEffectEnum.Theme);
         themeAudio.volume = 0.05;
         themeAudio.loop = true;
         themeAudio.play();
@@ -23,7 +23,7 @@ app.factory('soundEffectsService', function ($http) {
 
         if (isMobile) return;
 
-        var audio = new Audio('/content/media/' + soundEffect);
+        var audio = new Audio('assets/media/' + soundEffect);
         if (volume) audio.volume = volume;
         if (loop) audio.loop = loop;
 

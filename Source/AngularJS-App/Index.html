@@ -12,7 +12,7 @@
 <body ng-keydown="OnKeyDown($event.which);" ng-controller="gameController" style="background-color:{{ getGameColor() }}">
 
     <div class="preloading">
-        <img src="../Content/images/TetrisAnimated.gif" style="width:300px" />
+        <img src="assets/images/TetrisAnimated.gif" style="width:300px" />
         <h1>... loading ...</h1>
     </div>
 
@@ -56,7 +56,7 @@
             <div class="text-center">
 
                 <div class="splash" ng-style="!getGameData().running ? { 'display':'block'} : { 'display': 'none' }">
-                    <img src="../Content/images/logo.png" />
+                    <img src="assets/images/logo.png" />
                 </div>
 
                 <div id="Game" ngg-class="{ 'blur': getGameData().paused || !getGameData().running }">
@@ -126,7 +126,7 @@
 
                     <h4>Source code</h4>
 
-                    <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on September 2017, using AngularJS, Bootstrap 3.3.7, JQuery, C#, WebAPI, MySql, Entity Framework. </p>
+                    <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on September 2017, using AngularJS, Bootstrap 3.3.7, JQuery, C#, WebAPI, Entity Framework. </p>
                     <p><a class="btn btn-default" href="https://github.com/TheoKand/AngularTetris">Browse &raquo;</a></p>
 
                 </div>
@@ -173,7 +173,7 @@
                         </tbody>
                     </table>
 
-                    <img src="../Content/images/PleaseWait.gif" ng-style="PleaseWait_GetHighscores ? { 'display':'block'} : { 'display': 'none' }" />
+                    <img src="assets/images/PleaseWait.gif" ng-style="PleaseWait_GetHighscores ? { 'display':'block'} : { 'display': 'none' }" />
 
                     You must score {{highscores[highscores.length-1].Score}} or more to get in the highscores!
 
@@ -229,7 +229,7 @@
 
                     <div ng-style="getGameData().IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
                         Please enter your name: <input id="txtName" type="text" />
-                        <button ng-click="saveHighscore()" type="button" id="btnSaveHighscore" class="btn btn-sm btn-success">SAVE</button> <img src="../Content/images/PleaseWait.gif" style="height:50px" ng-style="PleaseWait_SaveHighscores ? { 'display':'block'} : { 'display': 'none' }" />
+                        <button ng-click="saveHighscore()" type="button" id="btnSaveHighscore" class="btn btn-sm btn-success">SAVE</button> <img src="assets/images/PleaseWait.gif" style="height:50px" ng-style="PleaseWait_SaveHighscores ? { 'display':'block'} : { 'display': 'none' }" />
 
                     </div>
 
@@ -262,7 +262,7 @@
     </div>
 
 
-    <link rel="stylesheet" href="/Content/css/Site.css" />
+    <link rel="stylesheet" href="assets/css/Site.css" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
