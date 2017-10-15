@@ -10,16 +10,18 @@ namespace App.Controllers
     public class HighscoresController : ApiController
     {
 
-        protected App.Models.AngularDBConnection db = new Models.AngularDBConnection();
-
         // GET api/<controller>
         /// <summary>
         /// Returns the list of highscores
         /// </summary>
-        public List<Models.angulartetris_highscores> Get()
+        public List<Models.Highscores> Get()
         {
-            var result =  db.angulartetris_highscores.OrderByDescending(h => h.Score).ToList();
-            return result;
+            using (Models.AngularContext db = new Models.AngularContext("AngularTetrisDB"))
+            {
+                var result = db.Highscores.OrderByDescending(h => h.Score).ToList();
+                return result;
+            }
+
         }
 
         /// <summary>
@@ -27,22 +29,25 @@ namespace App.Controllers
         /// </summary>
         /// <param name="newItem"></param>
         [HttpPost]
-        public void Put(Models.angulartetris_highscores newItem)
+        public void Put(Models.Highscores newItem)
         {
-            //add new highscore
-            newItem.DateCreated = DateTime.Now;
-            db.angulartetris_highscores.Add(newItem);
-
-            //delete lower highscore if there are more than 10
-            if (db.angulartetris_highscores.Count()>9)
+            using (Models.AngularContext db = new Models.AngularContext("AngularTetrisDB"))
             {
-                var lowest = db.angulartetris_highscores.OrderBy(h => h.Score).First();
-                db.angulartetris_highscores.Remove(lowest);
-                db.Entry(lowest).State = System.Data.Entity.EntityState.Deleted;
-            }
+                //add new highscore
+                newItem.DateCreated = DateTime.Now;
+                db.Highscores.Add(newItem);
 
-            //persist changes with entity framework
-            db.SaveChanges();
+                //delete lower highscore if there are more than 10
+                if (db.Highscores.Count() > 9)
+                {
+                    var lowest = db.Highscores.OrderBy(h => h.Score).First();
+                    db.Highscores.Remove(lowest);
+                    db.Entry(lowest).State = System.Data.Entity.EntityState.Deleted;
+                }
+
+                //persist changes with entity framework
+                db.SaveChanges();
+            }
 
         }
 
