@@ -376,7 +376,7 @@ app.factory('gameBoardService', function () {
 
             var lineIsComplete = true;
             for (var x = 0; x < factory.boardSize.w; x++) {
-                if (gameData.board[y][x] >=0 ) {
+                if (gameData.board[y][x] >= 0) {
                     lineIsComplete = false;
                     break;
                 }

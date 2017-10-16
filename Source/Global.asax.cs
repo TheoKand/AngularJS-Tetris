@@ -13,15 +13,6 @@ namespace App
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-
-            //using (System.Data.SqlClient.SqlConnection conn = new System.Data.SqlClient.SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["AngularTetrisDB"].ConnectionString))
-            //{
-            //    conn.Open();
-            //    var state = conn.State;
-            //    System.Diagnostics.Debug.WriteLine(state);
-            //}
-
-
         }
     }
 }

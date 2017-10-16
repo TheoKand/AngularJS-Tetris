@@ -14,16 +14,16 @@ app.setCookie = function (cname, cvalue, exdays) {
 app.getCookie = function (cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+    var result="";
+    ca.forEach(function (c) {
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
-            return JSON.parse(c.substring(name.length, c.length));
+            result = JSON.parse(c.substring(name.length, c.length));
         }
-    }
-    return "";
+    });
+    return result;
 };
 
 //check if it's mobile device

@@ -59,7 +59,7 @@
                     <img src="assets/images/logo.png" />
                 </div>
 
-                <div id="Game" ngg-class="{ 'blur': getGameData().paused || !getGameData().running }">
+                <div id="Game">
 
                     <div id="GameInfo">
                         Score: <b style="font-size:14px" class="GameScoreValue">{{getGameData().score}}</b><br />
@@ -72,7 +72,7 @@
                     </div>
                     <div ng-repeat="row in getGameData().board track by $id($index)">
                         <div ng-repeat="col in getGameData().board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="z-index:1;background-color:{{ getSquareColor($parent.$index,$index) }}">
-                            {{ getGameData().board[row][col] }}
+                           <!--{{ $parent.$index + ',' + $index }} : {{ col }}-->
                         </div>
                     </div>
                 </div>

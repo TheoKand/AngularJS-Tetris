@@ -96,7 +96,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, g
 
             gameData.paused = false;
             gameData.running = true;
-            gameInterval = $timeout(Animate, 0);
+            gameInterval = $timeout(GameLoop, 0);
             gameData.startButtonText = "Pause";
 
         } else {
@@ -403,7 +403,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, g
     // 2. solidify the tetromino if it can't go futher down
     // 3. clear completed lines
     // 4. check for game over and send the next tetromino
-    function Animate() {
+    function GameLoop() {
 
         if (!gameData.running) return;
 
@@ -493,7 +493,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, g
         }
 
         //set the game timer. The delay depends on the current level. The higher the level, the fastest the game moves (harder)
-        gameInterval = $timeout(Animate, GetDelay());
+        gameInterval = $timeout(GameLoop, GetDelay());
 
     }
 
