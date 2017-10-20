@@ -105,9 +105,8 @@
     <Content Include="AngularJS-App\assets\media\LineComplete_4.mp3" />
     <Content Include="AngularJS-App\assets\media\NextLevel.mp3" />
     <Content Include="AngularJS-App\assets\media\Rotate.mp3" />
-    <Content Include="AngularJS-App\models\gameBoard.js" />
+    <Content Include="AngularJS-App\models\game.js" />
     <Content Include="AngularJS-App\models\tetromino.js" />
-    <Content Include="AngularJS-App\services\gameDataService.js" />
     <Content Include="AngularJS-App\services\soundEffectsService.js" />
     <Content Include="AngularJS-App\services\highscoreService.js" />
     <Content Include="AngularJS-App\assets\css\Site.css" />

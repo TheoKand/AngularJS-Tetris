@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var GameBoard = {
+var Game = {
 
     BoardSize : { w: 10, h: 20 },
     Colors : ["#0066FF", "#FFE100", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#2200FF", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"],
@@ -19,7 +19,7 @@ var GameBoard = {
                     var boardX = tetromino.x + x;
 
                     //tetromino is blocked by the game board edge
-                    if ((boardY > GameBoard.BoardSize.h - 1) || (boardY < 0) || (boardX < 0) || (boardX > GameBoard.BoardSize.w - 1)) {
+                    if ((boardY > Game.BoardSize.h - 1) || (boardY < 0) || (boardX < 0) || (boardX > Game.BoardSize.w - 1)) {
                         return false;
                     }
 
@@ -40,7 +40,7 @@ var GameBoard = {
         //create a shallow copy of the tetromino so that we can change the Y coordinate 
         var newTetromino = JSON.parse(JSON.stringify(tetromino));
         newTetromino.y++;
-        return GameBoard.checkIfTetrominoCanGoThere(newTetromino, board);
+        return Game.checkIfTetrominoCanGoThere(newTetromino, board);
     },
 
     //This method can be used for 3 different actions:
@@ -72,32 +72,32 @@ var GameBoard = {
     },
 
     //check if any lines were completed
-    checkForTetris: function (gameData) {
+    checkForTetris: function (gameState) {
 
-        for (var y = GameBoard.BoardSize.h - 1; y > 0; y--) {
+        for (var y = Game.BoardSize.h - 1; y > 0; y--) {
 
             var lineIsComplete = true;
-            for (var x = 0; x < GameBoard.BoardSize.w; x++) {
-                if (gameData.board[y][x] >= 0) {
+            for (var x = 0; x < Game.BoardSize.w; x++) {
+                if (gameState.board[y][x] >= 0) {
                     lineIsComplete = false;
                     break;
                 }
             }
 
             if (lineIsComplete) {
-                gameData.lines++;
-                gameData.score = gameData.score + 100 + (gameData.level - 1) * 50;
+                gameState.lines++;
+                gameState.score = gameState.score + 100 + (gameState.level - 1) * 50;
 
                 //move everything downwards
                 for (var fallingY = y; fallingY > 0; fallingY--) {
-                    for (var x = 0; x < GameBoard.BoardSize.w; x++) {
-                        gameData.board[fallingY][x] = gameData.board[fallingY - 1][x];
+                    for (var x = 0; x < Game.BoardSize.w; x++) {
+                        gameState.board[fallingY][x] = gameState.board[fallingY - 1][x];
                     }
                 }
 
                 //check if current level is completed
-                if (gameData.lines % 5 == 0) {
-                    gameData.level++;
+                if (gameState.lines % 5 == 0) {
+                    gameState.level++;
                 }
 
                 return true;
@@ -110,5 +110,25 @@ var GameBoard = {
         return false;
 
     },
+
+    //this object holds all the information that makes up the game state
+    gameState: function () {
+
+        this.startButtonText= "Start";
+        this.level = 1;
+        this.score = 0;
+        this.lines = 0;
+        this.running = false;
+        this.paused = false;
+        this.fallingTetromino = null;
+        this.nextTetromino = null;
+        this.nextTetrominoSquares = null;
+        this.board = null;
+        this.tetrominoBag = [];
+        this.fullTetrominoBag = [0, 5, 5, 5, 5, 5, 5, 5];
+        this.tetrominoHistory = "";
+        this.isHighscore = false;
+
+    }
 
 };

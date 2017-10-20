@@ -307,7 +307,6 @@ var Tetromino = {
 
 };
 
-
 ////It's used like this:
 
 //var obj = new Tetromino.tetromino(Tetromino.TypeEnum.LINE);

@@ -23,7 +23,7 @@
                 <a href="https://github.com/TheoKand" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
 
                 <div class="dropdown">
-                    <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{ getGameData().startButtonText }}</button>
+                    <button ng-click="startGame()" type="button" class="btn btn-sm btn-success" id="btnStart">{{ GameState.startButtonText }}</button>
                     <button class="btn btn-sm btn-warning dropdown-toggle" type="button" data-toggle="dropdown">
                         More
                         <span class="caret"></span>
@@ -33,7 +33,7 @@
                         <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#InfoHighscores">Highscores</a></li>
                         <li role="separator" class="divider"></li>
-                        <li ng-class="{ 'disabled': !getGameData().running && !getGameData().paused }"><a href="#" ng-click="SaveGame()">Save Game</a></li>
+                        <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="SaveGame()">Save Game</a></li>
                         <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#" ng-click="SetMusic(!(GetMusic()))">Music : {{ GetMusic() ? "OFF" : "ON"}}</a></li>
@@ -55,25 +55,25 @@
 
             <div class="text-center">
 
-                <div class="splash" ng-style="!getGameData().running ? { 'display':'block'} : { 'display': 'none' }">
+                <div class="splash" ng-style="!GameState.running ? { 'display':'block'} : { 'display': 'none' }">
                     <img src="assets/images/logo.png" />
                 </div>
 
                 <div id="Game">
 
                     <div id="GameInfo">
-                        Score: <b style="font-size:14px" class="GameScoreValue">{{getGameData().score}}</b><br />
-                        Level: <b>{{getGameData().level}}</b><br />
+                        Score: <b style="font-size:14px" class="GameScoreValue">{{GameState.score}}</b><br />
+                        Level: <b>{{GameState.level}}</b><br />
                         Next:
-                        <div ng-repeat="row in getGameData().nextTetrominoSquares track by $id($index)">
-                            <div ng-repeat="col in getGameData().nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
+                        <div ng-repeat="row in GameState.nextTetrominoSquares track by $id($index)">
+                            <div ng-repeat="col in GameState.nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
                             </div>
                         </div>
                     </div>
-                    <div ng-repeat="row in getGameData().board track by $id($index)">
-                        <div ng-repeat="col in getGameData().board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="z-index:1;background-color:{{ getSquareColor($parent.$index,$index) }}">
-                           <!--{{ $parent.$index + ',' + $index }} : {{ col }}-->
-                        </div>
+                    <div ng-repeat="row in GameState.board track by $id($index)">
+                        <div ng-repeat="col in GameState.board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="z-index:1;background-color:{{ getSquareColor($parent.$index,$index) }}">
+                            <!--{{ $parent.$index + ',' + $index }} : {{ col }}-->
+                        </div>by
                     </div>
                 </div>
 
@@ -197,7 +197,7 @@
                 <div class="modal-body">
 
                     <p>
-                        <b>Your score is {{getGameData().score}}</b>
+                        <b>Your score is {{GameState.score}}</b>
                     </p>
 
                     <table class="table table-striped">
@@ -227,7 +227,7 @@
 
 
 
-                    <div ng-style="getGameData().IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
+                    <div ng-style="GameState.IsHighscore ? { 'display':'block'} : { 'display': 'none' }">
                         Please enter your name: <input id="txtName" type="text" />
                         <button ng-click="saveHighscore()" type="button" id="btnSaveHighscore" class="btn btn-sm btn-success">SAVE</button> <img src="assets/images/PleaseWait.gif" style="height:50px" ng-style="PleaseWait_SaveHighscores ? { 'display':'block'} : { 'display': 'none' }" />
 
@@ -261,20 +261,27 @@
         </div>
     </div>
 
-
     <link rel="stylesheet" href="assets/css/Site.css" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
+    <!-- dependencies -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <script src="assets/scripts/jquery-1.10.2.min.js"></script>
+    <script src="assets/scripts/jquery-ui.min.js"></script>
+    <script src="assets/scripts/angular.min.js"></script>
+    <script src="assets/scripts/bootstrap.min.js"></script>
+
+    <!--
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    -->
 
     <!-- include angular app scripts-->
     <script src="app.js"></script>
     <script src="models/tetromino.js"></script>
-    <script src="models/gameBoard.js"></script>
-    <script src="services/gameDataService.js"></script>
+    <script src="models/game.js"></script>
     <script src="services/highscoreService.js"></script>
     <script src="services/soundEffectsService.js"></script>
     <script src="controllers/gameController.js"></script>

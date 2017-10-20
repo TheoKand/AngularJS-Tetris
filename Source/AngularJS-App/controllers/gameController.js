@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('gameController', function ($scope, $timeout, highscoreService, soundEffectsService, gameData) {
+app.controller('gameController', function ($scope, $timeout, highscoreService, soundEffectsService) {
 
     var gameInterval = null;
 
@@ -12,6 +12,8 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
         GetHighscores();
         AnimateBodyBackgroundColor();
 
+        $scope.GameState = new Game.gameState();
+
         //show the information modal, only the first time
         var infoHasBeenDisplayed = app.getCookie("AngularTetris_InfoWasDisplayed");
         if (infoHasBeenDisplayed == "") {
@@ -20,11 +22,6 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
         }
 
     })();
-
-    //The gameData service (singleton) must be accessible through the scope
-    $scope.getGameData = function () {
-        return gameData;
-    };
 
     //start or stop the theme music
     $scope.SetMusic = function (on) {
@@ -61,7 +58,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //Save the game state in a cookie
     $scope.SaveGame = function () {
 
-        app.setCookie("AngularTetris_GameState", gameData, 365);
+        app.setCookie("AngularTetris_GameState", $scope.GameState, 365);
 
         ShowMessage("Game Saved", "Your current game was saved. You can return to this game any time by clicking More > Restore Game.");
 
@@ -73,9 +70,9 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
         if (gameState != "") {
 
             $scope.startGame();
-            gameData = gameState;
+            $scope.GameState = gameState;
 
-            ShowMessage("Game Restored", "The game was restored and your score is " + gameData.score + ". Close this window to resume your game.");
+            ShowMessage("Game Restored", "The game was restored and your score is " + $scope.GameState.score + ". Close this window to resume your game.");
 
         } else {
 
@@ -87,24 +84,24 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //init a new game and start the game loop timer, or pause game
     $scope.startGame = function () {
 
-        if (!gameData.running) {
+        if (!$scope.GameState.running) {
 
-            if (!gameData.paused) {
+            if (!$scope.GameState.paused) {
                 //start new game
                 InitializeGame();
             }
 
-            gameData.paused = false;
-            gameData.running = true;
+            $scope.GameState.paused = false;
+            $scope.GameState.running = true;
             gameInterval = $timeout(GameLoop, 0);
-            gameData.startButtonText = "Pause";
+            $scope.GameState.startButtonText = "Pause";
 
         } else {
 
-            gameData.running = false;
-            gameData.paused = true;
+            $scope.GameState.running = false;
+            $scope.GameState.paused = true;
 
-            gameData.startButtonText = "Continue";
+            $scope.GameState.startButtonText = "Continue";
             if (gameInterval) clearTimeout(gameInterval);
 
         }
@@ -114,7 +111,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
     $scope.getSquareColor = function (y, x) {
 
-        var square = gameData.board[y][x];
+        var square = $scope.GameState.board[y][x];
         
         if (square < 0 ) {
             var color = Tetromino.Colors[Math.abs(square)];
@@ -128,12 +125,12 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //returns the color of the game board depending on the level
     $scope.getGameColor = function () {
         
-        return GameBoard.Colors[(gameData.level % GameBoard.Colors.length)];
+        return Game.Colors[($scope.GameState.level % Game.Colors.length)];
 
     };
 
     $scope.getTetrominoColor = function (y, x) {
-        var square = gameData.nextTetrominoSquares[y][x];
+        var square = $scope.GameState.nextTetrominoSquares[y][x];
         if (square == 0) {
             return $scope.getGameColor();
         } else {
@@ -142,7 +139,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     };
 
     $scope.getSquareCssClass = function (y, x) {
-        var square = gameData.board[y][x];
+        var square = $scope.GameState.board[y][x];
 
         if (square == 0) {
             return "Square ";
@@ -158,7 +155,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         var highscore = new Object();
         highscore.Name = $('#txtName').val();
-        highscore.Score = gameData.score;
+        highscore.Score = $scope.GameState.score;
 
         if (highscore.Name.length == 0) {
             ShowMessage("", "Please enter your name!");
@@ -170,7 +167,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
         //call the highscores service to save the new score
         highscoreService.put(highscore, function () {
             $scope.PleaseWait_SaveHighscores = false;
-            gameData.IsHighscore = false;
+            $scope.GameState.IsHighscore = false;
             GetHighscores();
         }, function (errMsg) {
             $scope.PleaseWait_SaveHighscores = false;
@@ -182,25 +179,25 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //handle keyboard event. The tetromino is moved or rotated
     $scope.OnKeyDown = (function (key) {
 
-        if (!gameData.running) return;
+        if (!$scope.GameState.running) return;
 
-        var tetrominoAfterMovement = JSON.parse(JSON.stringify(gameData.fallingTetromino));
+        var tetrominoAfterMovement = JSON.parse(JSON.stringify($scope.GameState.fallingTetromino));
 
         switch (key) {
             case 37: // left
 
                 tetrominoAfterMovement.x--;
 
-                if (GameBoard.checkIfTetrominoCanGoThere(tetrominoAfterMovement, gameData.board)) {
+                if (Game.checkIfTetrominoCanGoThere(tetrominoAfterMovement, $scope.GameState.board)) {
 
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Rotate);
 
                     //remove tetromino from current position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "remove");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "remove");
                     //move tetromino
-                    gameData.fallingTetromino.x--;
+                    $scope.GameState.fallingTetromino.x--;
                     //add to new position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
 
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
@@ -212,16 +209,16 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
                 Tetromino.rotate(tetrominoAfterMovement);
 
-                if (GameBoard.checkIfTetrominoCanGoThere(tetrominoAfterMovement, gameData.board)) {
+                if (Game.checkIfTetrominoCanGoThere(tetrominoAfterMovement, $scope.GameState.board)) {
 
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Rotate);
 
                     //remove tetromino from current position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "remove");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "remove");
                     //rotate tetromino
-                    Tetromino.rotate(gameData.fallingTetromino);
+                    Tetromino.rotate($scope.GameState.fallingTetromino);
                     //add to new position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
 
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
@@ -232,16 +229,16 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
                 tetrominoAfterMovement.x++;
 
-                if (GameBoard.checkIfTetrominoCanGoThere(tetrominoAfterMovement, gameData.board)) {
+                if (Game.checkIfTetrominoCanGoThere(tetrominoAfterMovement, $scope.GameState.board)) {
 
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Rotate);
 
                     //remove tetromino from current position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "remove");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "remove");
                     //move tetromino
-                    gameData.fallingTetromino.x++;
+                    $scope.GameState.fallingTetromino.x++;
                     //add to new position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
 
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
@@ -254,13 +251,13 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
                 tetrominoAfterMovement.y++;
 
-                if (GameBoard.checkIfTetrominoCanGoThere(tetrominoAfterMovement, gameData.board)) {
+                if (Game.checkIfTetrominoCanGoThere(tetrominoAfterMovement, $scope.GameState.board)) {
                     //remove tetromino from current position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "remove");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "remove");
                     //move tetromino
-                    gameData.fallingTetromino.y++;
+                    $scope.GameState.fallingTetromino.y++;
                     //add to new position
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
 
                 } else {
                     if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.CantGoThere);
@@ -279,12 +276,12 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     function GetDelay() {
         var delay = 1000;
 
-        if (gameData.level < 5) {
-            delay = delay - (120 * (gameData.level - 1));
-        } else if (gameData.level < 15) {
-            delay = delay - (58 * (gameData.level - 1));
+        if ($scope.GameState.level < 5) {
+            delay = delay - (120 * ($scope.GameState.level - 1));
+        } else if ($scope.GameState.level < 15) {
+            delay = delay - (58 * ($scope.GameState.level - 1));
         } else {
-            delay = 220 - (gameData.level - 15) * 8;
+            delay = 220 - ($scope.GameState.level - 15) * 8;
         }
 
         return delay;
@@ -296,17 +293,17 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     function GetNextRandomTetromino() {
 
         //refill bag if empty
-        var isEmpty = !gameData.tetrominoBag.some(function (a) { return a > 0; });
+        var isEmpty = !$scope.GameState.tetrominoBag.some(function (a) { return a > 0; });
         var availableTetrominos = [];
 
         for (var i = 1; i <= 7; i++) {
-            if (gameData.tetrominoBag[i] > 0) {
+            if ($scope.GameState.tetrominoBag[i] > 0) {
                 availableTetrominos.push(i);
             }
         }
 
         if (isEmpty) {
-            gameData.tetrominoBag = JSON.parse(JSON.stringify(gameData.fullTetrominoBag));
+            $scope.GameState.tetrominoBag = JSON.parse(JSON.stringify($scope.GameState.fullTetrominoBag));
             availableTetrominos = [Tetromino.TypeEnum.LINE, Tetromino.TypeEnum.BOX, Tetromino.TypeEnum.INVERTED_T, Tetromino.TypeEnum.S, Tetromino.TypeEnum.Z, Tetromino.TypeEnum.L, Tetromino.TypeEnum.INVERTED_L];
         }
 
@@ -323,24 +320,24 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
             //don't allow the same tetromino two consecutive times
             var cantHaveThisTetromino = 0;
-            if (gameData.tetrominoHistory.length > 0) {
-                var ar = gameData.tetrominoHistory.split(",");
-                cantHaveThisTetromino = parseInt(gameData.tetrominoHistory[gameData.tetrominoHistory.length - 1]);
+            if ($scope.GameState.tetrominoHistory.length > 0) {
+                var ar = $scope.GameState.tetrominoHistory.split(",");
+                cantHaveThisTetromino = parseInt($scope.GameState.tetrominoHistory[$scope.GameState.tetrominoHistory.length - 1]);
             }
 
             var randomTetrominoType = Math.floor((Math.random() * 7) + 1);
-            while (gameData.tetrominoBag[randomTetrominoType] == 0 || (randomTetrominoType == cantHaveThisTetromino)) {
+            while ($scope.GameState.tetrominoBag[randomTetrominoType] == 0 || (randomTetrominoType == cantHaveThisTetromino)) {
                 randomTetrominoType = Math.floor((Math.random() * 7) + 1);
             }
 
         }
 
         //keep a list of fallen tetrominos
-        if (gameData.tetrominoHistory != "") gameData.tetrominoHistory = gameData.tetrominoHistory + ",";
-        gameData.tetrominoHistory = gameData.tetrominoHistory + randomTetrominoType;
+        if ($scope.GameState.tetrominoHistory != "") $scope.GameState.tetrominoHistory = $scope.GameState.tetrominoHistory + ",";
+        $scope.GameState.tetrominoHistory = $scope.GameState.tetrominoHistory + randomTetrominoType;
 
         //decrease available items for this tetromino (bag with 7 of each)
-        gameData.tetrominoBag[randomTetrominoType]--;
+        $scope.GameState.tetrominoBag[randomTetrominoType]--;
 
         var newTetromino = new Tetromino.tetromino(randomTetrominoType );
         return newTetromino;
@@ -349,36 +346,36 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //Initialize everything to start a new tetris game
     function InitializeGame() {
 
-        gameData.running = false;
-        gameData.lines = 0;
-        gameData.score = 0;
-        gameData.level = 1;
-        gameData.tetrominoBag = JSON.parse(JSON.stringify(gameData.fullTetrominoBag));
-        gameData.tetrominoHistory = "";
-        gameData.IsHighscore = false;
+        $scope.GameState.running = false;
+        $scope.GameState.lines = 0;
+        $scope.GameState.score = 0;
+        $scope.GameState.level = 1;
+        $scope.GameState.tetrominoBag = JSON.parse(JSON.stringify($scope.GameState.fullTetrominoBag));
+        $scope.GameState.tetrominoHistory = "";
+        $scope.GameState.IsHighscore = false;
 
         backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: makeColorLighter($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
 
         //get next tetromino
         if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Drop);
-        if (gameData.nextTetromino) {
-            gameData.fallingTetromino = gameData.nextTetromino;
+        if ($scope.GameState.nextTetromino) {
+            $scope.GameState.fallingTetromino = $scope.GameState.nextTetromino;
         } else {
-            gameData.fallingTetromino = GetNextRandomTetromino();
+            $scope.GameState.fallingTetromino = GetNextRandomTetromino();
         }
-        gameData.nextTetromino = GetNextRandomTetromino();
-        gameData.nextTetrominoSquares = Tetromino.getSquares(gameData.nextTetromino);
+        $scope.GameState.nextTetromino = GetNextRandomTetromino();
+        $scope.GameState.nextTetrominoSquares = Tetromino.getSquares($scope.GameState.nextTetromino);
 
         //initialize game board
-        gameData.board = new Array(GameBoard.BoardSize.h);
-        for (var y = 0; y < GameBoard.BoardSize.h; y++) {
-            gameData.board[y] = new Array(GameBoard.BoardSize.w);
-            for (var x = 0; x < GameBoard.BoardSize.w; x++)
-                gameData.board[y][x] = 0;
+        $scope.GameState.board = new Array(Game.BoardSize.h);
+        for (var y = 0; y < Game.BoardSize.h; y++) {
+            $scope.GameState.board[y] = new Array(Game.BoardSize.w);
+            for (var x = 0; x < Game.BoardSize.w; x++)
+                $scope.GameState.board[y][x] = 0;
         }
 
         //show the first falling tetromino 
-        GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+        Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
 
     }
 
@@ -387,15 +384,15 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.GameOver);
 
-        gameData.running = false;
-        gameData.startButtonText = "Start";
+        $scope.GameState.running = false;
+        $scope.GameState.startButtonText = "Start";
 
-        if (gameData.score > 0 && $scope.highscores) {
+        if ($scope.GameState.score > 0 && $scope.highscores) {
             if ($scope.highscores.length < 10) {
-                gameData.IsHighscore = true;
+                $scope.GameState.IsHighscore = true;
             } else {
                 var minScore = $scope.highscores[$scope.highscores.length - 1].Score;
-                gameData.IsHighscore = (gameData.score > minScore);
+                $scope.GameState.IsHighscore = ($scope.GameState.score > minScore);
             }
         }
 
@@ -410,29 +407,29 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     // 4. check for game over and send the next tetromino
     function GameLoop() {
 
-        if (!gameData.running) return;
+        if (!$scope.GameState.running) return;
 
-        var tetrominoCanFall = GameBoard.checkIfTetrominoCanMoveDown(gameData.fallingTetromino, gameData.board);
+        var tetrominoCanFall = Game.checkIfTetrominoCanMoveDown($scope.GameState.fallingTetromino, $scope.GameState.board);
         if (tetrominoCanFall) {
 
-            GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "remove");
-            gameData.fallingTetromino.y++;
-            GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+            Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "remove");
+            $scope.GameState.fallingTetromino.y++;
+            Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
 
         } else {
 
             //tetromino is solidified. Check for game over and Send the next one.
-            if (gameData.fallingTetromino.y == 0) {
+            if ($scope.GameState.fallingTetromino.y == 0) {
                 GameOver();
             } else {
 
                 //solidify tetromino
-                GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "solidify");
+                Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "solidify");
 
                 //clear completed lines
-                var currentLevel = gameData.level;
+                var currentLevel = $scope.GameState.level;
                 var howManyLinesCompleted = 0;
-                while (GameBoard.checkForTetris(gameData)) {
+                while (Game.checkForTetris($scope.GameState)) {
                     howManyLinesCompleted++;
                 }
 
@@ -454,9 +451,9 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
                     $(".GameScoreValue").animate({ fontSize: "14px" }, "fast");
 
                     //give extra points for multiple lines
-                    gameData.score = gameData.score + 50 * (howManyLinesCompleted - 1);
+                    $scope.GameState.score = $scope.GameState.score + 50 * (howManyLinesCompleted - 1);
                     if (howManyLinesCompleted == 4) {
-                        gameData.score = gameData.score + 500;
+                        $scope.GameState.score = $scope.GameState.score + 500;
                     }
 
                     if ($scope.GetSoundFX()) {
@@ -469,7 +466,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
                         else if (howManyLinesCompleted == 4)
                             soundEffectsService.play(app.SoundEffectEnum.LineComplete4);
 
-                        if (gameData.level > currentLevel) soundEffectsService.play(app.SoundEffectEnum.NextLevel);
+                        if ($scope.GameState.level > currentLevel) soundEffectsService.play(app.SoundEffectEnum.NextLevel);
                     }
 
                     backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: makeColorLighter($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
@@ -477,19 +474,19 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
                 //send next one
                 if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Drop);
-                if (gameData.nextTetromino) {
-                    gameData.fallingTetromino = gameData.nextTetromino;
+                if ($scope.GameState.nextTetromino) {
+                    $scope.GameState.fallingTetromino = $scope.GameState.nextTetromino;
                 } else {
-                    gameData.fallingTetromino = GetNextRandomTetromino();
+                    $scope.GameState.fallingTetromino = GetNextRandomTetromino();
                 }
-                gameData.nextTetromino = GetNextRandomTetromino();
-                gameData.nextTetrominoSquares = Tetromino.getSquares(gameData.nextTetromino);
+                $scope.GameState.nextTetromino = GetNextRandomTetromino();
+                $scope.GameState.nextTetrominoSquares = Tetromino.getSquares($scope.GameState.nextTetromino);
 
-                var tetrominoCanFall = GameBoard.checkIfTetrominoCanMoveDown(gameData.fallingTetromino, gameData.board);
+                var tetrominoCanFall = Game.checkIfTetrominoCanMoveDown($scope.GameState.fallingTetromino, $scope.GameState.board);
                 if (!tetrominoCanFall) {
                     GameOver();
                 } else {
-                    GameBoard.modifyBoard(gameData.fallingTetromino, gameData.board, "add");
+                    Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "add");
                 }
 
 
@@ -533,7 +530,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         if (!backgroundAnimationInfo.AlternateColor) {
             backgroundAnimationInfo = {
-                Color: GameBoard.Colors[1], AlternateColor: makeColorLighter(GameBoard.Colors[1], 50), Duration: 1500 };
+                Color: Game.Colors[1], AlternateColor: makeColorLighter(Game.Colors[1], 50), Duration: 1500 };
         }
 
         $("body").animate({
