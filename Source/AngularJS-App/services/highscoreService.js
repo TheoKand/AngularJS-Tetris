@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Query the WebAPI action to get the list of highscores
-app.factory('highscoreService', function ($http) {
+app.factory('highscoreService', ['$http', function ($http) {
 
     let factory = {};
 
@@ -26,4 +26,4 @@ app.factory('highscoreService', function ($http) {
     };
 
     return factory;
-});
+}]);

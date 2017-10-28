@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.factory('soundEffectsService', function ($http) {
+app.factory('soundEffectsService', ['$http', function ($http) {
 
     let factory = {};
     let isMobile = app.isMobile();
@@ -31,4 +31,4 @@ app.factory('soundEffectsService', function ($http) {
     };
 
     return factory;
-});
+}]);

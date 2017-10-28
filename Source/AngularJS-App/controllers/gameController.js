@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('gameController', function ($scope, $timeout, highscoreService, soundEffectsService) {
+app.controller('gameController', ['$scope', '$timeout','highscoreService','soundEffectsService', function ($scope, $timeout, highscoreService, soundEffectsService) {
 
     let gameInterval = null;
     let backgroundAnimationInfo = {};
@@ -553,4 +553,4 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
     }
 
-});
+}]);

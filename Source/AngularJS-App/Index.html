@@ -35,7 +35,7 @@
                         <li role="separator" class="divider"></li>
                         <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="SaveGame()">Save Game</a></li>
                         <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
-                        <li class="hidden-xs divider" role="separator" ></li>
+                        <li class="hidden-xs divider" role="separator"></li>
                         <li class="hidden-xs "><a href="#" ng-click="SetMusic(!(GetMusic()))">Music : {{ GetMusic() ? "OFF" : "ON"}}</a></li>
                         <li class="hidden-xs "><a href="#" ng-click="SetSoundFX(!(GetSoundFX()))">Sound Effects : {{ GetSoundFX() ? "OFF" : "ON"}}</a></li>
                     </ul>
@@ -260,30 +260,29 @@
         </div>
     </div>
 
-    <!-- dependencies -->
-    <link   href="assets/css/bootstrap.min.css" rel="stylesheet"  />
-    <script src="assets/scripts/jquery-1.10.2.min.js"></script>
+    <!-- styles -->
+    <link rel="stylesheet" href="assets/css/Site.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <!-- 3rd party components -->
+    <!--<script src="assets/scripts/jquery-1.10.2.min.js"></script>
     <script src="assets/scripts/jquery-ui.min.js"></script>
     <script src="assets/scripts/angular.min.js"></script>
-    <script src="assets/scripts/bootstrap.min.js"></script>
-
-    <!-- live version of scripts
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="assets/scripts/bootstrap.min.js"></script>-->
+    
+    <!--3rd party components live version-->
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    -->
 
-    <link rel="stylesheet" href="assets/css/Site.css" />
-
-    <!-- include angular app scripts-->
-    <script src="app.js"></script>
-    <script src="models/tetromino.js"></script>
-    <script src="models/game.js"></script>
-    <script src="services/highscoreService.js"></script>
-    <script src="services/soundEffectsService.js"></script>
-    <script src="controllers/gameController.js"></script>
+    <!-- project components-->
+    <script src="app.min.js"></script>
+    <script src="models/tetromino.min.js"></script>
+    <script src="models/game.min.js"></script>
+    <script src="services/highscoreService.min.js"></script>
+    <script src="services/soundEffectsService.min.js"></script>
+    <script src="controllers/gameController.min.js"></script>
 
 
 </body>
