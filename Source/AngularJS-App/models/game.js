@@ -2,8 +2,9 @@
 
 const Game = {
 
-    BoardSize : { w: 10, h: 20 },
-    Colors : ["#0066FF", "#FFE100", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#2200FF", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"],
+    BoardSize: { w: 10, h: 20 },
+    Colors: ["#0066FF", "#FFE100", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#2200FF", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"],
+    BoardActions: { ADD: 0, REMOVE: 1, SOLIDIFY: 2 },
 
     //Check if this tetromino can move in this coordinate. It might be blocked by existing solid squares, or by the game board edges
     checkIfTetrominoCanGoThere: function (tetromino, board) {
@@ -47,7 +48,7 @@ const Game = {
     //1. add a tetromino on the board (action="add")
     //2. remove a tetromino from the board (action="remove")
     //3. solidify a tetromino on the board (action="solidify")
-    modifyBoard: function (tetromino, board, action) {
+    modifyBoard: function (tetromino, board, boardAction) {
 
         let tetrominoSquares = Tetromino.getSquares(tetromino);
         for (let y = 0; y < tetrominoSquares.length; y++) {
@@ -57,11 +58,11 @@ const Game = {
                     let boardY = tetromino.y + y;
                     let boardX = tetromino.x + x;
 
-                    if (action == "solidify")
+                    if (boardAction == Game.BoardActions.SOLIDIFY)
                         board[boardY][boardX] = -tetromino.type;
-                    else if (action == "remove")
+                    else if (boardAction == Game.BoardActions.REMOVE)
                         board[boardY][boardX] = 0;
-                    else if (action == "add")
+                    else if (boardAction == Game.BoardActions.ADD)
                         board[boardY][boardX] = tetromino.type;
 
                 }
@@ -114,7 +115,7 @@ const Game = {
     //this object holds all the information that makes up the game state
     gameState: function () {
 
-        this.startButtonText= "Start";
+        this.startButtonText = "Start";
         this.level = 1;
         this.score = 0;
         this.lines = 0;

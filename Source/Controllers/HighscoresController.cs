@@ -33,6 +33,8 @@ namespace App.Controllers
         {
             using (Models.AngularContext db = new Models.AngularContext("AngularTetrisDB"))
             {
+                if (newItem.Score > 200000) throw new Exception("No way!!! ;)");
+
                 //add new highscore
                 newItem.DateCreated = DateTime.Now;
                 db.Highscores.Add(newItem);

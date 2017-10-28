@@ -35,9 +35,9 @@
                         <li role="separator" class="divider"></li>
                         <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="SaveGame()">Save Game</a></li>
                         <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#" ng-click="SetMusic(!(GetMusic()))">Music : {{ GetMusic() ? "OFF" : "ON"}}</a></li>
-                        <li><a href="#" ng-click="SetSoundFX(!(GetSoundFX()))">Sound Effects : {{ GetSoundFX() ? "OFF" : "ON"}}</a></li>
+                        <li class="hidden-xs divider" role="separator" ></li>
+                        <li class="hidden-xs "><a href="#" ng-click="SetMusic(!(GetMusic()))">Music : {{ GetMusic() ? "OFF" : "ON"}}</a></li>
+                        <li class="hidden-xs "><a href="#" ng-click="SetSoundFX(!(GetSoundFX()))">Sound Effects : {{ GetSoundFX() ? "OFF" : "ON"}}</a></li>
                     </ul>
                 </div>
 
@@ -66,7 +66,7 @@
                         Level: <b>{{GameState.level}}</b><br />
                         Next:
                         <div ng-repeat="row in GameState.nextTetrominoSquares track by $id($index)">
-                            <div ng-repeat="col in GameState.nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getTetrominoColor($parent.$index,$index) }}">
+                            <div ng-repeat="col in GameState.nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getNextTetrominoColor($parent.$index,$index) }}">
                             </div>
                         </div>
                     </div>
