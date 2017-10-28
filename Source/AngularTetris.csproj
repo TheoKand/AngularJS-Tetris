@@ -93,6 +93,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularJS-App\assets\css\bootstrap.min.css" />
+    <Content Include="AngularJS-App\assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="AngularJS-App\assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="AngularJS-App\assets\scripts\angular.min.js" />
+    <Content Include="AngularJS-App\assets\scripts\bootstrap.min.js" />
+    <Content Include="AngularJS-App\assets\scripts\jquery-1.10.2.min.js" />
+    <Content Include="AngularJS-App\assets\scripts\jquery-ui.min.js" />
     <Content Include="AngularJS-App\controllers\gameController.js" />
     <Content Include="AngularJS-App\assets\images\logo.png" />
     <Content Include="AngularJS-App\assets\images\TetrisAnimated.gif" />
@@ -112,8 +119,10 @@
     <Content Include="AngularJS-App\assets\css\Site.css" />
     <Content Include="AngularJS-App\assets\images\PleaseWait.gif" />
     <Content Include="AngularJS-App\assets\media\theme.mp3" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
+    <Content Include="AngularJS-App\assets\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Properties\PublishProfiles\AngularTetris20170918013407 - Web Deploy.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
