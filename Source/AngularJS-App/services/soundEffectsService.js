@@ -2,9 +2,9 @@
 
 app.factory('soundEffectsService', function ($http) {
 
-    var factory = {};
-    var isMobile = app.isMobile();
-    var themeAudio;
+    let factory = {};
+    let isMobile = app.isMobile();
+    let themeAudio;
 
     factory.playTheme = function () {
         if (isMobile) return;
@@ -23,7 +23,7 @@ app.factory('soundEffectsService', function ($http) {
 
         if (isMobile) return;
 
-        var audio = new Audio('assets/media/' + soundEffect);
+        let audio = new Audio('assets/media/' + soundEffect);
         if (volume) audio.volume = volume;
         if (loop) audio.loop = loop;
 

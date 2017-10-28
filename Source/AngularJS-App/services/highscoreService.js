@@ -3,7 +3,7 @@
 //Query the WebAPI action to get the list of highscores
 app.factory('highscoreService', function ($http) {
 
-    var factory = {};
+    let factory = {};
 
     //Query the WebAPI action method to get the list of highscores
     factory.get = function (successCallback, errorCallback) {

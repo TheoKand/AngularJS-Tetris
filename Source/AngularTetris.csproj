@@ -112,7 +112,6 @@
     <Content Include="AngularJS-App\assets\css\Site.css" />
     <Content Include="AngularJS-App\assets\images\PleaseWait.gif" />
     <Content Include="AngularJS-App\assets\media\theme.mp3" />
-    <Content Include="AngularJS-App\Test.html" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\AngularTetris20170918013407 - Web Deploy.pubxml" />

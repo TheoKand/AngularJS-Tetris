@@ -2,7 +2,7 @@
 
 //this singleton contains a factory function for the tetromino object and related methods. I use this way of creating the object
 //because if I attach methods to the prototype, they won't exist after the object is serialized/deserialized.
-var Tetromino = {
+const Tetromino = {
 
     TypeEnum: { UNDEFINED: 0, LINE: 1, BOX: 2, INVERTED_T: 3, S: 4, Z: 5, L: 6, INVERTED_L: 7 },
     Colors: ["white", "#00F0F0", "#F0F000", "#A000F0", "#00F000", "#F00000", "#F0A000", "#6363FF"],
@@ -42,7 +42,7 @@ var Tetromino = {
     //as a two dimensional array. Some tetrominos can also be rotated which changes the square structure
     getSquares: function (tetromino) {
 
-        var arr = [[], []];
+        let arr = [[], []];
         arr[0] = new Array(3);
         arr[1] = new Array(3);
         arr[2] = new Array(3);
@@ -309,12 +309,12 @@ var Tetromino = {
 
 ////It's used like this:
 
-//var obj = new Tetromino.tetromino(Tetromino.TypeEnum.LINE);
+//let obj = new Tetromino.tetromino(Tetromino.TypeEnum.LINE);
 //console.log(Tetromino.getSquares(obj));
 //Tetromino.rotate(obj);
 //console.log(Tetromino.getSquares(obj));
-//var json = JSON.stringify(obj);
-//var newObj = JSON.parse(json);
+//let json = JSON.stringify(obj);
+//let newObj = JSON.parse(json);
 //console.log(Tetromino.getSquares(newObj));
 //Tetromino.rotate(newObj);
 //console.log(Tetromino.getSquares(newObj));

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var Game = {
+const Game = {
 
     BoardSize : { w: 10, h: 20 },
     Colors : ["#0066FF", "#FFE100", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#2200FF", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"],
@@ -8,15 +8,15 @@ var Game = {
     //Check if this tetromino can move in this coordinate. It might be blocked by existing solid squares, or by the game board edges
     checkIfTetrominoCanGoThere: function (tetromino, board) {
 
-        var tetrominoSquares = Tetromino.getSquares(tetromino);
+        let tetrominoSquares = Tetromino.getSquares(tetromino);
 
-        for (var y = 0; y < tetrominoSquares.length; y++) {
-            for (var x = 0; x < tetrominoSquares[y].length; x++) {
+        for (let y = 0; y < tetrominoSquares.length; y++) {
+            for (let x = 0; x < tetrominoSquares[y].length; x++) {
 
                 if (tetrominoSquares[y][x] != null) {
 
-                    var boardY = tetromino.y + y;
-                    var boardX = tetromino.x + x;
+                    let boardY = tetromino.y + y;
+                    let boardX = tetromino.x + x;
 
                     //tetromino is blocked by the game board edge
                     if ((boardY > Game.BoardSize.h - 1) || (boardY < 0) || (boardX < 0) || (boardX > Game.BoardSize.w - 1)) {
@@ -38,7 +38,7 @@ var Game = {
     checkIfTetrominoCanMoveDown: function (tetromino, board) {
 
         //create a shallow copy of the tetromino so that we can change the Y coordinate 
-        var newTetromino = JSON.parse(JSON.stringify(tetromino));
+        let newTetromino = JSON.parse(JSON.stringify(tetromino));
         newTetromino.y++;
         return Game.checkIfTetrominoCanGoThere(newTetromino, board);
     },
@@ -49,13 +49,13 @@ var Game = {
     //3. solidify a tetromino on the board (action="solidify")
     modifyBoard: function (tetromino, board, action) {
 
-        var tetrominoSquares = Tetromino.getSquares(tetromino);
-        for (var y = 0; y < tetrominoSquares.length; y++) {
-            for (var x = 0; x < tetrominoSquares[y].length; x++) {
+        let tetrominoSquares = Tetromino.getSquares(tetromino);
+        for (let y = 0; y < tetrominoSquares.length; y++) {
+            for (let x = 0; x < tetrominoSquares[y].length; x++) {
 
                 if (tetrominoSquares[y][x] != null && tetrominoSquares[y][x] != 0) {
-                    var boardY = tetromino.y + y;
-                    var boardX = tetromino.x + x;
+                    let boardY = tetromino.y + y;
+                    let boardX = tetromino.x + x;
 
                     if (action == "solidify")
                         board[boardY][boardX] = -tetromino.type;
@@ -74,10 +74,10 @@ var Game = {
     //check if any lines were completed
     checkForTetris: function (gameState) {
 
-        for (var y = Game.BoardSize.h - 1; y > 0; y--) {
+        for (let y = Game.BoardSize.h - 1; y > 0; y--) {
 
-            var lineIsComplete = true;
-            for (var x = 0; x < Game.BoardSize.w; x++) {
+            let lineIsComplete = true;
+            for (let x = 0; x < Game.BoardSize.w; x++) {
                 if (gameState.board[y][x] >= 0) {
                     lineIsComplete = false;
                     break;
@@ -89,8 +89,8 @@ var Game = {
                 gameState.score = gameState.score + 100 + (gameState.level - 1) * 50;
 
                 //move everything downwards
-                for (var fallingY = y; fallingY > 0; fallingY--) {
-                    for (var x = 0; x < Game.BoardSize.w; x++) {
+                for (let fallingY = y; fallingY > 0; fallingY--) {
+                    for (let x = 0; x < Game.BoardSize.w; x++) {
                         gameState.board[fallingY][x] = gameState.board[fallingY - 1][x];
                     }
                 }

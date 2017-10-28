@@ -2,9 +2,8 @@
 
 app.controller('gameController', function ($scope, $timeout, highscoreService, soundEffectsService) {
 
-    var gameInterval = null;
-
-    var backgroundAnimationInfo = {};
+    let gameInterval = null;
+    let backgroundAnimationInfo = {};
 
     (function () {
 
@@ -15,7 +14,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
         $scope.GameState = new Game.gameState();
 
         //show the information modal, only the first time
-        var infoHasBeenDisplayed = app.getCookie("AngularTetris_InfoWasDisplayed");
+        let infoHasBeenDisplayed = app.getCookie("AngularTetris_InfoWasDisplayed");
         if (infoHasBeenDisplayed == "") {
             app.setCookie("AngularTetris_InfoWasDisplayed", true, 30);
             $("#InfoModal").modal('show');
@@ -36,14 +35,12 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
     //is the music on?
     $scope.GetMusic = function () {
-        var cookie = app.getCookie("AngularTetris_Music");
-        return !(cookie === false);
+        return !(app.getCookie("AngularTetris_Music") === false);
     };
 
     //are the soundfx on?
     $scope.GetSoundFX = function () {
-        var cookie = app.getCookie("AngularTetris_SoundFX");
-        return !(cookie === false);
+        return !( app.getCookie("AngularTetris_SoundFX")  === false);
     };
 
     //start or stop the sound fx
@@ -66,7 +63,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
     //Restore the game state from a cookie
     $scope.RestoreGame = function () {
-        var gameState = app.getCookie("AngularTetris_GameState");
+        let gameState = app.getCookie("AngularTetris_GameState");
         if (gameState != "") {
 
             $scope.startGame();
@@ -111,11 +108,10 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
     $scope.getSquareColor = function (y, x) {
 
-        var square = $scope.GameState.board[y][x];
+        let square = $scope.GameState.board[y][x];
         
         if (square < 0 ) {
-            var color = Tetromino.Colors[Math.abs(square)];
-            return color;
+            return Tetromino.Colors[Math.abs(square)];
         } else {
             return Tetromino.Colors[square];
         }
@@ -130,7 +126,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     };
 
     $scope.getTetrominoColor = function (y, x) {
-        var square = $scope.GameState.nextTetrominoSquares[y][x];
+        let square = $scope.GameState.nextTetrominoSquares[y][x];
         if (square == 0) {
             return $scope.getGameColor();
         } else {
@@ -139,7 +135,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     };
 
     $scope.getSquareCssClass = function (y, x) {
-        var square = $scope.GameState.board[y][x];
+        let square = $scope.GameState.board[y][x];
 
         if (square == 0) {
             return "Square ";
@@ -153,7 +149,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     //save a new highscore
     $scope.saveHighscore = function () {
 
-        var highscore = new Object();
+        let highscore = new Object();
         highscore.Name = $('#txtName').val();
         highscore.Score = $scope.GameState.score;
 
@@ -181,7 +177,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         if (!$scope.GameState.running) return;
 
-        var tetrominoAfterMovement = JSON.parse(JSON.stringify($scope.GameState.fallingTetromino));
+        let tetrominoAfterMovement = JSON.parse(JSON.stringify($scope.GameState.fallingTetromino));
 
         switch (key) {
             case 37: // left
@@ -274,7 +270,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     function GetDelay() {
-        var delay = 1000;
+        let delay = 1000;
 
         if ($scope.GameState.level < 5) {
             delay = delay - (120 * ($scope.GameState.level - 1));
@@ -293,10 +289,11 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
     function GetNextRandomTetromino() {
 
         //refill bag if empty
-        var isEmpty = !$scope.GameState.tetrominoBag.some(function (a) { return a > 0; });
-        var availableTetrominos = [];
+        let isEmpty = !$scope.GameState.tetrominoBag.some(function (a) { return a > 0; });
+        let availableTetrominos = [];
+        let randomTetrominoType;
 
-        for (var i = 1; i <= 7; i++) {
+        for (let i = 1; i <= 7; i++) {
             if ($scope.GameState.tetrominoBag[i] > 0) {
                 availableTetrominos.push(i);
             }
@@ -313,19 +310,19 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         } else if (availableTetrominos.length <= 3) {
 
-            var randomNum = Math.floor((Math.random() * (availableTetrominos.length - 1)));
+            let randomNum = Math.floor((Math.random() * (availableTetrominos.length - 1)));
             randomTetrominoType = availableTetrominos[randomNum];
 
         } else {
 
             //don't allow the same tetromino two consecutive times
-            var cantHaveThisTetromino = 0;
+            let cantHaveThisTetromino = 0;
             if ($scope.GameState.tetrominoHistory.length > 0) {
-                var ar = $scope.GameState.tetrominoHistory.split(",");
+                let ar = $scope.GameState.tetrominoHistory.split(",");
                 cantHaveThisTetromino = parseInt($scope.GameState.tetrominoHistory[$scope.GameState.tetrominoHistory.length - 1]);
             }
 
-            var randomTetrominoType = Math.floor((Math.random() * 7) + 1);
+            randomTetrominoType = Math.floor((Math.random() * 7) + 1);
             while ($scope.GameState.tetrominoBag[randomTetrominoType] == 0 || (randomTetrominoType == cantHaveThisTetromino)) {
                 randomTetrominoType = Math.floor((Math.random() * 7) + 1);
             }
@@ -339,7 +336,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
         //decrease available items for this tetromino (bag with 7 of each)
         $scope.GameState.tetrominoBag[randomTetrominoType]--;
 
-        var newTetromino = new Tetromino.tetromino(randomTetrominoType );
+        let newTetromino = new Tetromino.tetromino(randomTetrominoType);
         return newTetromino;
     }
 
@@ -368,9 +365,9 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         //initialize game board
         $scope.GameState.board = new Array(Game.BoardSize.h);
-        for (var y = 0; y < Game.BoardSize.h; y++) {
+        for (let y = 0; y < Game.BoardSize.h; y++) {
             $scope.GameState.board[y] = new Array(Game.BoardSize.w);
-            for (var x = 0; x < Game.BoardSize.w; x++)
+            for (let x = 0; x < Game.BoardSize.w; x++)
                 $scope.GameState.board[y][x] = 0;
         }
 
@@ -391,7 +388,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
             if ($scope.highscores.length < 10) {
                 $scope.GameState.IsHighscore = true;
             } else {
-                var minScore = $scope.highscores[$scope.highscores.length - 1].Score;
+                let minScore = $scope.highscores[$scope.highscores.length - 1].Score;
                 $scope.GameState.IsHighscore = ($scope.GameState.score > minScore);
             }
         }
@@ -409,7 +406,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
         if (!$scope.GameState.running) return;
 
-        var tetrominoCanFall = Game.checkIfTetrominoCanMoveDown($scope.GameState.fallingTetromino, $scope.GameState.board);
+        let tetrominoCanFall = Game.checkIfTetrominoCanMoveDown($scope.GameState.fallingTetromino, $scope.GameState.board);
         if (tetrominoCanFall) {
 
             Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "remove");
@@ -427,8 +424,8 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
                 Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, "solidify");
 
                 //clear completed lines
-                var currentLevel = $scope.GameState.level;
-                var howManyLinesCompleted = 0;
+                let currentLevel = $scope.GameState.level;
+                let howManyLinesCompleted = 0;
                 while (Game.checkForTetris($scope.GameState)) {
                     howManyLinesCompleted++;
                 }
@@ -446,7 +443,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
                         $("#Game").effect("shake", { direction: "up", distance: "30", times: 4 }, 500);
                     }
 
-                    var scoreFontSize = 25 + (howManyLinesCompleted - 1) * 15;
+                    let scoreFontSize = 25 + (howManyLinesCompleted - 1) * 15;
                     $(".GameScoreValue").animate({ fontSize: scoreFontSize + "px" }, "fast");
                     $(".GameScoreValue").animate({ fontSize: "14px" }, "fast");
 
@@ -482,7 +479,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
                 $scope.GameState.nextTetromino = GetNextRandomTetromino();
                 $scope.GameState.nextTetrominoSquares = Tetromino.getSquares($scope.GameState.nextTetromino);
 
-                var tetrominoCanFall = Game.checkIfTetrominoCanMoveDown($scope.GameState.fallingTetromino, $scope.GameState.board);
+                tetrominoCanFall = Game.checkIfTetrominoCanMoveDown($scope.GameState.fallingTetromino, $scope.GameState.board);
                 if (!tetrominoCanFall) {
                     GameOver();
                 } else {
@@ -515,7 +512,7 @@ app.controller('gameController', function ($scope, $timeout, highscoreService, s
 
     //Changes the provided color to be this percent lighter
     function makeColorLighter(color, percent) {
-        var num = parseInt(color.slice(1), 16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
+        let num = parseInt(color.slice(1), 16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
         return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
     }
 
