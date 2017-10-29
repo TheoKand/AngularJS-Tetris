@@ -93,7 +93,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularJS-App\app.min.js">
+      <DependentUpon>app.js</DependentUpon>
+    </Content>
     <Content Include="AngularJS-App\assets\css\bootstrap.min.css" />
+    <Content Include="AngularJS-App\assets\css\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="AngularJS-App\controllers\gameController.js" />
     <Content Include="AngularJS-App\assets\images\logo.png" />
     <Content Include="AngularJS-App\assets\images\TetrisAnimated.gif" />
@@ -106,13 +112,28 @@
     <Content Include="AngularJS-App\assets\media\LineComplete_4.mp3" />
     <Content Include="AngularJS-App\assets\media\NextLevel.mp3" />
     <Content Include="AngularJS-App\assets\media\Rotate.mp3" />
+    <Content Include="AngularJS-App\controllers\gameController.min.js">
+      <DependentUpon>gameController.js</DependentUpon>
+    </Content>
     <Content Include="AngularJS-App\models\game.js" />
+    <Content Include="AngularJS-App\models\game.min.js">
+      <DependentUpon>game.js</DependentUpon>
+    </Content>
     <Content Include="AngularJS-App\models\tetromino.js" />
+    <Content Include="AngularJS-App\models\tetromino.min.js">
+      <DependentUpon>tetromino.js</DependentUpon>
+    </Content>
+    <Content Include="AngularJS-App\services\highscoreService.min.js">
+      <DependentUpon>highscoreService.js</DependentUpon>
+    </Content>
     <Content Include="AngularJS-App\services\soundEffectsService.js" />
     <Content Include="AngularJS-App\services\highscoreService.js" />
     <Content Include="AngularJS-App\assets\css\Site.css" />
     <Content Include="AngularJS-App\assets\images\PleaseWait.gif" />
     <Content Include="AngularJS-App\assets\media\theme.mp3" />
+    <Content Include="AngularJS-App\services\soundEffectsService.min.js">
+      <DependentUpon>soundEffectsService.js</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />

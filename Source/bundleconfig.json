@@ -1,3 +1,44 @@
 [
- 
+  {
+    "outputFileName": "AngularJS-App/controllers/gameController.min.js",
+    "inputFiles": [
+      "AngularJS-App/controllers/gameController.js"
+    ]
+  },
+  {
+    "outputFileName": "AngularJS-App/models/game.min.js",
+    "inputFiles": [
+      "AngularJS-App/models/game.js"
+    ]
+  },
+  {
+    "outputFileName": "AngularJS-App/assets/css/Site.min.css",
+    "inputFiles": [
+      "AngularJS-App/assets/css/Site.css"
+    ]
+  },
+  {
+    "outputFileName": "AngularJS-App/models/tetromino.min.js",
+    "inputFiles": [
+      "AngularJS-App/models/tetromino.js"
+    ]
+  },
+  {
+    "outputFileName": "AngularJS-App/services/highscoreService.min.js",
+    "inputFiles": [
+      "AngularJS-App/services/highscoreService.js"
+    ]
+  },
+  {
+    "outputFileName": "AngularJS-App/services/soundEffectsService.min.js",
+    "inputFiles": [
+      "AngularJS-App/services/soundEffectsService.js"
+    ]
+  },
+  {
+    "outputFileName": "AngularJS-App/app.min.js",
+    "inputFiles": [
+      "AngularJS-App/app.js"
+    ]
+  }
 ]
