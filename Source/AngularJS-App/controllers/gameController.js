@@ -2,15 +2,18 @@
 
 app.controller('gameController', ['$scope', '$timeout','highscoreService','soundEffectsService', function ($scope, $timeout, highscoreService, soundEffectsService) {
 
-    let gameInterval = null;
-    let backgroundAnimationInfo = {};
+    let gameInterval = null; //The timerId of the game loop timer. 
+    let backgroundAnimationInfo = {}; //Singleton object that contains info about the page's background color animation. As the game progresses, the animation becomes more lively
 
+    //This IIFEE is the "entry-point" of the AngularJS app
     (function () {
 
         if (!(app.getCookie("AngularTetris_Music") === false)) soundEffectsService.playTheme();
+
         GetHighscores();
         AnimateBodyBackgroundColor();
 
+        //instantiate the game state object. It's created in the singleton class Game and it's saved in the AngularJS scope because it must be accessible from the view
         $scope.GameState = new Game.gameState();
 
         //show the information modal, only the first time
@@ -231,6 +234,42 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
 
     });
 
+    //Initialize everything to start a new game
+    function InitializeGame() {
+
+        $scope.GameState.running = false;
+        $scope.GameState.lines = 0;
+        $scope.GameState.score = 0;
+        $scope.GameState.level = 1;
+        $scope.GameState.tetrominoBag = JSON.parse(JSON.stringify($scope.GameState.fullTetrominoBag));
+        $scope.GameState.tetrominoHistory = [];
+        $scope.GameState.IsHighscore = false;
+
+        backgroundAnimationInfo = { Color: $scope.getGameColor($scope.GameState), AlternateColor: makeColorLighter($scope.getGameColor($scope.GameState), 50), Duration: 1500 - ($scope.level - 1) * 30 };
+
+        //get next tetromino
+        if ($scope.getSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Drop);
+        if ($scope.GameState.nextTetromino) {
+            $scope.GameState.fallingTetromino = $scope.GameState.nextTetromino;
+        } else {
+            $scope.GameState.fallingTetromino = GetNextRandomTetromino();
+        }
+        $scope.GameState.nextTetromino = GetNextRandomTetromino();
+        $scope.GameState.nextTetrominoSquares = Tetromino.getSquares($scope.GameState.nextTetromino);
+
+        //initialize game board
+        $scope.GameState.board = new Array(Game.BoardSize.h);
+        for (let y = 0; y < Game.BoardSize.h; y++) {
+            $scope.GameState.board[y] = new Array(Game.BoardSize.w);
+            for (let x = 0; x < Game.BoardSize.w; x++)
+                $scope.GameState.board[y][x] = 0;
+        }
+
+        //show the first falling tetromino 
+        Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, Game.BoardActions.ADD);
+
+    }
+
     //Returns a random Tetromino. A bag of all 7 tetrominoes are randomly shuffled and put in the field of play. If possible the same tetromino does not appear two consequtive times.
     function GetNextRandomTetromino() {
 
@@ -281,42 +320,6 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
         $scope.GameState.tetrominoBag[randomTetrominoType]--;
 
         return new Tetromino.tetromino(randomTetrominoType);
-    }
-
-    //Initialize everything to start a new game
-    function InitializeGame() {
-
-        $scope.GameState.running = false;
-        $scope.GameState.lines = 0;
-        $scope.GameState.score = 0;
-        $scope.GameState.level = 1;
-        $scope.GameState.tetrominoBag = JSON.parse(JSON.stringify($scope.GameState.fullTetrominoBag));
-        $scope.GameState.tetrominoHistory = [];
-        $scope.GameState.IsHighscore = false;
-
-        backgroundAnimationInfo = { Color: $scope.getGameColor($scope.GameState), AlternateColor: makeColorLighter($scope.getGameColor($scope.GameState), 50), Duration: 1500 - ($scope.level - 1) * 30 };
-
-        //get next tetromino
-        if ($scope.getSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Drop);
-        if ($scope.GameState.nextTetromino) {
-            $scope.GameState.fallingTetromino = $scope.GameState.nextTetromino;
-        } else {
-            $scope.GameState.fallingTetromino = GetNextRandomTetromino();
-        }
-        $scope.GameState.nextTetromino = GetNextRandomTetromino();
-        $scope.GameState.nextTetrominoSquares = Tetromino.getSquares($scope.GameState.nextTetromino);
-
-        //initialize game board
-        $scope.GameState.board = new Array(Game.BoardSize.h);
-        for (let y = 0; y < Game.BoardSize.h; y++) {
-            $scope.GameState.board[y] = new Array(Game.BoardSize.w);
-            for (let x = 0; x < Game.BoardSize.w; x++)
-                $scope.GameState.board[y][x] = 0;
-        }
-
-        //show the first falling tetromino 
-        Game.modifyBoard($scope.GameState.fallingTetromino, $scope.GameState.board, Game.BoardActions.ADD);
-
     }
 
     //Game is over. Check if there is a new highscore

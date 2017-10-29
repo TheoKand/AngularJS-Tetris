@@ -5,6 +5,8 @@ Web.config
 Web.Debug.config
 Web.Release.config
 PublishProfiles/
+*.min.js
+*.min.css
 
 # User-specific files
 *.suo
