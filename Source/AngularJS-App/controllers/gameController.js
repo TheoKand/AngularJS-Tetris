@@ -104,51 +104,11 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
 
     };
 
-    //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
-    $scope.getSquareColor = function (y, x) {
-
-        let square = $scope.GameState.board[y][x];
-
-        //a negative value means the square is solidified
-        if (square < 0) {
-            return Tetromino.Colors[Math.abs(square)];
-        } else {
-            //zero means the square is empty, so white is returned from the array. A positive value means the square contains a falling tetromino.
-            return Tetromino.Colors[square];
-        }
-
-    };
-
-    //returns the css class of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
-    $scope.getSquareCssClass = function (y, x) {
-        let square = $scope.GameState.board[y][x];
-
-        //zero means the square is empty
-        if (square == 0) {
-            return "Square ";
-        } else if (square < 0) {
-            //a negative value means the square is solidified
-            return "Square SolidSquare";
-        } else {
-            //A positive value means the square contains a falling tetromino.
-            return "Square TetrominoSquare";
-        }
-    };
-
-    //returns the color of the game board depending on the level
-    $scope.getGameColor = function () {
-        return Game.Colors[($scope.GameState.level % Game.Colors.length)];
-    };
-
-    //returns the color of the next tetromino. The next tetromino is displayed while the current tetromino is being played
-    $scope.getNextTetrominoColor = function (y, x) {
-        let square = $scope.GameState.nextTetrominoSquares[y][x];
-        if (square == 0) {
-            return $scope.getGameColor();
-        } else {
-            return Tetromino.Colors[square];
-        }
-    };
+    //these game-related functions (implemented in models/game.js) must be accessible from the view
+    $scope.getGameColor = Game.getGameColor;
+    $scope.getSquareColor = Game.getSquareColor;
+    $scope.getSquareCssClass = Game.getSquareCssClass;
+    $scope.getNextTetrominoColor = Game.getNextTetrominoColor;
 
     //save a new highscore
     $scope.saveHighscore = function () {
@@ -271,23 +231,7 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
 
     });
 
-    //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
-    function GetDelay() {
-
-        let delay = 1000;
-        if ($scope.GameState.level < 5) {
-            delay = delay - (120 * ($scope.GameState.level - 1));
-        } else if ($scope.GameState.level < 15) {
-            delay = delay - (58 * ($scope.GameState.level - 1));
-        } else {
-            delay = 220 - ($scope.GameState.level - 15) * 8;
-        }
-        return delay;
-
-    }
-
-    //Returns a random Tetromino. A bag of all 7 tetrominoes are randomly shuffled and put in the field of play. If possible
-    //the same tetromino does not appear two consequtive times. It's not always possible because there is the element of randomness.
+    //Returns a random Tetromino. A bag of all 7 tetrominoes are randomly shuffled and put in the field of play. If possible the same tetromino does not appear two consequtive times.
     function GetNextRandomTetromino() {
 
         //refill bag if empty
@@ -352,7 +296,7 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
         $scope.GameState.tetrominoHistory = "";
         $scope.GameState.IsHighscore = false;
 
-        backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: makeColorLighter($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
+        backgroundAnimationInfo = { Color: $scope.getGameColor($scope.GameState), AlternateColor: makeColorLighter($scope.getGameColor($scope.GameState), 50), Duration: 1500 - ($scope.level - 1) * 30 };
 
         //get next tetromino
         if ($scope.GetSoundFX()) soundEffectsService.play(app.SoundEffectEnum.Drop);
@@ -398,11 +342,7 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
 
     }
 
-    // the game loop. If the tetris game is running...
-    // 1. move the tetromino down if it can fall 
-    // 2. solidify the tetromino if it can't go futher down
-    // 3. clear completed lines
-    // 4. check for game over and send the next tetromino
+    // the game loop: If the tetris game is running 1. move the tetromino down if it can fall, 2. solidify the tetromino if it can't go futher down, 3. clear completed lines, 4. check for game over and send the next tetromino
     function GameLoop() {
 
         if (!$scope.GameState.running) return;
@@ -467,7 +407,7 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
                         if ($scope.GameState.level > currentLevel) soundEffectsService.play(app.SoundEffectEnum.NextLevel);
                     }
 
-                    backgroundAnimationInfo = { Color: $scope.getGameColor(), AlternateColor: makeColorLighter($scope.getGameColor(), 50), Duration: 1500 - ($scope.level - 1) * 30 };
+                    backgroundAnimationInfo = { Color: $scope.getGameColor($scope.GameState), AlternateColor: makeColorLighter($scope.getGameColor($scope.GameState), 50), Duration: 1500 - ($scope.level - 1) * 30 };
                 }
 
                 //send next one
@@ -493,7 +433,7 @@ app.controller('gameController', ['$scope', '$timeout','highscoreService','sound
         }
 
         //set the game timer. The delay depends on the current level. The higher the level, the fastest the game moves (harder)
-        gameInterval = $timeout(GameLoop, GetDelay());
+        gameInterval = $timeout(GameLoop, Game.getDelay($scope.GameState));
 
     }
 

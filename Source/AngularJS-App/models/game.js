@@ -44,10 +44,7 @@ const Game = {
         return Game.checkIfTetrominoCanGoThere(newTetromino, board);
     },
 
-    //This method can be used for 3 different actions:
-    //1. add a tetromino on the board (action="add")
-    //2. remove a tetromino from the board (action="remove")
-    //3. solidify a tetromino on the board (action="solidify")
+    //This method can be used for 3 different actions: add a tetromino on the board, remove and solidify 
     modifyBoard: function (tetromino, board, boardAction) {
 
         let tetrominoSquares = Tetromino.getSquares(tetromino);
@@ -109,6 +106,68 @@ const Game = {
         }
 
         return false;
+
+    },
+
+    //returns the color of the game board depending on the level
+    getGameColor: function (gameState) {
+        if (gameState)
+            return Game.Colors[(gameState.level % Game.Colors.length)];
+    },
+
+    //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
+    getSquareColor: function (gameState, y, x) {
+
+        let square = gameState.board[y][x];
+
+        //a negative value means the square is solidified
+        if (square < 0) {
+            return Tetromino.Colors[Math.abs(square)];
+        } else {
+            //zero means the square is empty, so white is returned from the array. A positive value means the square contains a falling tetromino.
+            return Tetromino.Colors[square];
+        }
+
+    },
+
+    //returns the css class of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
+    getSquareCssClass: function (gameState, y, x) {
+        let square = gameState.board[y][x];
+
+        //zero means the square is empty
+        if (square == 0) {
+            return "Square ";
+        } else if (square < 0) {
+            //a negative value means the square is solidified
+            return "Square SolidSquare";
+        } else {
+            //A positive value means the square contains a falling tetromino.
+            return "Square TetrominoSquare";
+        }
+    },
+
+    //returns the color of the next tetromino. The next tetromino is displayed while the current tetromino is being played
+    getNextTetrominoColor: function (gameState, y, x) {
+        let square = gameState.nextTetrominoSquares[y][x];
+        if (square == 0) {
+            return $scope.getGameColor();
+        } else {
+            return Tetromino.Colors[square];
+        }
+    },
+
+    //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
+    getDelay: function (gameState) {
+
+        let delay = 1000;
+        if (gameState.level < 5) {
+            delay = delay - (120 * (gameState.level - 1));
+        } else if (gameState.level < 15) {
+            delay = delay - (58 * (gameState.level - 1));
+        } else {
+            delay = 220 - (gameState.level - 15) * 8;
+        }
+        return delay;
 
     },
 

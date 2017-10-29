@@ -6,7 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 
-    <link rel="shortcut icon" href="">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108858196-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-108858196-1');
+    </script>
 
 </head>
 <body ng-keydown="OnKeyDown($event.which);" ng-controller="gameController" style="background-color:{{ getGameColor() }}">
@@ -66,12 +73,12 @@
                         Level: <b>{{GameState.level}}</b><br />
                         Next:
                         <div ng-repeat="row in GameState.nextTetrominoSquares track by $id($index)">
-                            <div ng-repeat="col in GameState.nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getNextTetrominoColor($parent.$index,$index) }}">
+                            <div ng-repeat="col in GameState.nextTetrominoSquares[$index] track by $id($index)" class="SmallSquare" style="background-color:{{ getNextTetrominoColor(GameState,$parent.$index,$index) }}">
                             </div>
                         </div>
                     </div>
                     <div ng-repeat="row in GameState.board track by $id($index)">
-                        <div ng-repeat="col in GameState.board[$index] track by $id($index)" class="{{ getSquareCssClass($parent.$index,$index) }}" style="z-index:1;background-color:{{ getSquareColor($parent.$index,$index) }}">
+                        <div ng-repeat="col in GameState.board[$index] track by $id($index)" class="{{ getSquareCssClass(GameState,$parent.$index,$index) }}" style="z-index:1;background-color:{{ getSquareColor(GameState,$parent.$index,$index) }}">
                         </div>
                     </div>
                 </div>
@@ -276,13 +283,22 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- project components-->
-    <script src="app.min.js"></script>
+    <!-- project components minified-->
+    <!--<script src="app.min.js"></script>
     <script src="models/tetromino.min.js"></script>
     <script src="models/game.min.js"></script>
     <script src="services/highscoreService.min.js"></script>
     <script src="services/soundEffectsService.min.js"></script>
-    <script src="controllers/gameController.min.js"></script>
+    <script src="controllers/gameController.min.js"></script>-->
+
+    <!-- project components-->
+    <script src="app.js"></script>
+    <script src="models/tetromino.js"></script>
+    <script src="models/game.js"></script>
+    <script src="services/highscoreService.js"></script>
+    <script src="services/soundEffectsService.js"></script>
+    <script src="controllers/gameController.js"></script>
+
 
 
 </body>

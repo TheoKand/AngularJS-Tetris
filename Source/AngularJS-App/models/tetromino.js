@@ -308,7 +308,6 @@ const Tetromino = {
 };
 
 ////It's used like this:
-
 //let obj = new Tetromino.tetromino(Tetromino.TypeEnum.LINE);
 //console.log(Tetromino.getSquares(obj));
 //Tetromino.rotate(obj);
