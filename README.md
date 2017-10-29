@@ -16,7 +16,7 @@ The project conists of just one ASP.NET Web Application that contains both the s
 
 <img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/1.png" width="280"> <img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/2.png" width="280"> <img src="https://github.com/TheoKand/AngularTetris/blob/master/Screenshots/3.png" width="280">
 
-It's a fully responsive Single Page Application which means that it's usable on any type of device like mobiles and tablets. When accessed with a touch screen device, an on-screen virtual keyboard is used.The highscores are saved in a MySql database through a WebAPI service. The data layer is built with the ADO.NET Entity Data Model. The application is published on the cloud using Microsoft Azure.
+It's a fully responsive Single Page Application which means that it's usable on any type of device like mobiles and tablets. When accessed with a touch screen device, an on-screen virtual keyboard is used.The highscores are saved in a MySql database through a WebAPI service. The data layer is built with Entity Framework. The application is published on the cloud using Microsoft Azure.
 
 # Tech stack
 
