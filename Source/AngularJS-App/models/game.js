@@ -186,7 +186,7 @@ const Game = {
         this.board = null;
         this.tetrominoBag = [];
         this.fullTetrominoBag = [0, 5, 5, 5, 5, 5, 5, 5];
-        this.tetrominoHistory = "";
+        this.tetrominoHistory = [];
         this.isHighscore = false;
 
     }

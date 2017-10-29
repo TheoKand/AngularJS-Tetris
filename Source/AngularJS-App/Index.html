@@ -16,7 +16,7 @@
     </script>
 
 </head>
-<body ng-keydown="OnKeyDown($event.which);" ng-controller="gameController" style="background-color:{{ getGameColor() }}">
+<body ng-keydown="onKeyDown($event.which);" ng-controller="gameController" style="background-color:{{ getGameColor() }}">
 
     <div class="preloading">
         <img src="assets/images/TetrisAnimated.gif" style="width:300px" />
@@ -40,11 +40,11 @@
                         <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#InfoHighscores">Highscores</a></li>
                         <li role="separator" class="divider"></li>
-                        <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="SaveGame()">Save Game</a></li>
-                        <li><a href="#" ng-click="RestoreGame()">Restore Game</a></li>
+                        <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="saveGame()">Save Game</a></li>
+                        <li><a href="#" ng-click="restoreGame()">Restore Game</a></li>
                         <li class="hidden-xs divider" role="separator"></li>
-                        <li class="hidden-xs "><a href="#" ng-click="SetMusic(!(GetMusic()))">Music : {{ GetMusic() ? "OFF" : "ON"}}</a></li>
-                        <li class="hidden-xs "><a href="#" ng-click="SetSoundFX(!(GetSoundFX()))">Sound Effects : {{ GetSoundFX() ? "OFF" : "ON"}}</a></li>
+                        <li class="hidden-xs "><a href="#" ng-click="setMusic(!(getMusic()))">Music : {{ getMusic() ? "OFF" : "ON"}}</a></li>
+                        <li class="hidden-xs "><a href="#" ng-click="setSoundFX(!(getSoundFX()))">Sound Effects : {{ getSoundFX() ? "OFF" : "ON"}}</a></li>
                     </ul>
                 </div>
 
@@ -85,13 +85,13 @@
 
                 <div id="TouchScreenController">
 
-                    <div style="width:100%;height:50px;border:1px solid black" ng-click="OnKeyDown(38)">
+                    <div style="width:100%;height:50px;border:1px solid black" ng-click="onKeyDown(38)">
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
 
                     </div>
 
-                    <div style="float:left;width:50%;height:50px;border-right:1px solid black;border-left:1px solid black;" ng-click="OnKeyDown(37)">
+                    <div style="float:left;width:50%;height:50px;border-right:1px solid black;border-left:1px solid black;" ng-click="onKeyDown(37)">
 
                         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 
@@ -99,13 +99,13 @@
 
                     <div style="float:left;width:50%;height:50px;border-right:1px solid black;">
 
-                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" ng-click="OnKeyDown(39)"></span>
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" ng-click="onKeyDown(39)"></span>
 
                     </div>
 
                     <div style="width:100%;height:50px;border:1px solid black;clear:both;">
 
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ng-click="OnKeyDown(40)"></span>
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ng-click="onKeyDown(40)"></span>
 
                     </div>
 
