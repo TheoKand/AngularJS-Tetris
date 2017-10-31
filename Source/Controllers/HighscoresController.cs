@@ -40,7 +40,7 @@ namespace App.Controllers
                 db.Highscores.Add(newItem);
 
                 //delete lower highscore if there are more than 10
-                if (db.Highscores.Count() > 9)
+                if (db.Highscores.Count() > 19)
                 {
                     var lowest = db.Highscores.OrderBy(h => h.Score).First();
                     db.Highscores.Remove(lowest);
