@@ -10,6 +10,7 @@
 An original AngularJS + Javascript version of the most popular video game ever. 
 
 Demo: http://angulartetris20170918013407.azurewebsites.net/AngularJS-App/
+
 Article: https://www.codeproject.com/Articles/1212957/AngularJS-Tetris
 
 # Introduction
