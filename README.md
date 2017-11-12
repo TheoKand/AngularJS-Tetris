@@ -4,7 +4,8 @@ An original AngularJS + Javascript version of the most popular video game ever.
 
 
 <ul>
-  <li><strong>Nominated for Best Web Dev Article of October 2017:</strong> https://www.codeproject.com/Surveys/2075/Best-Web-Dev-Article-of-October.aspx
+  <li><strong>Nominated for Best Web Dev Article of October 2017:</strong> 
+https://www.codeproject.com/Surveys/2075/Best-Web-Dev-Article-of-October.aspx
   </li>  
   <li>Demo: http://angulartetris20170918013407.azurewebsites.net/AngularJS-App/</li>
   <li>Article: https://www.codeproject.com/Articles/1212957/AngularJS-Tetris</li>
