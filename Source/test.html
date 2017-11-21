@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+
+    <script type="text/javascript">
+
+        //function calcAvgHeight(data) {
+        //    // Calculate average height from received data. If no data, return null.
+
+
+        //    var totalHeight = 0;
+        //    for (var person in data) {
+        //        totalHeight += data[person].height;
+        //    }
+
+        //    if (totalHeight == 0)
+        //        return null;
+        //    else {
+
+        //        var avgHeight = totalHeight / Object.keys(data).length;
+        //        return avgHeight;
+        //    }
+
+        //}
+
+
+        //var avgHeight = calcAvgHeight({
+        //    Matt: { height: 174, weight: 69 },
+        //    Jason: { height: 190, weight: 103 }
+        //});
+        //console.log(avgHeight);
+
+
+
+
+        function vehicle(make) {
+            this.make = make;
+        }
+
+        function car(make,model,wheels) {
+
+            vehicle.call(this, make);
+
+            this.model = model;
+            this.wheels = wheels;
+        }
+
+
+
+        var v = new vehicle("Aprilia");
+        alert("vehicle  name=" + v.make);
+
+        var subaru = new car("subaru","impreza",4);
+        subaru.wheels = 5;
+        alert("car make=" + subaru.make + subaru.model +  " wheels=" + subaru.wheels);
+
+
+        //function Point(x, y) {
+        //    this.x = x;
+        //    this.y = y;
+        //}
+
+        //function ColorPoint(x, y, color) {
+        //    Point.call(this, x, y);
+        //    this.color = color;
+        //}
+
+        //var p = new ColorPoint(1, 2, "red");
+        //alert(p.x + "," + p.y + "," + p.color);
+
+
+    </script>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-const Game = {
+var Game = {
 
     BoardSize: { w: 10, h: 20 },
     Colors: ["#0066FF", "#FFE100", "#00C3FF", "#00FFDA", "#00FF6E", "#C0FF00", "#F3FF00", "#2200FF", "#FFAA00", "#FF7400", "#FF2B00", "#FF0000", "#000000"],
@@ -9,15 +9,15 @@ const Game = {
     //Check if this tetromino can move in this coordinate. It might be blocked by existing solid squares, or by the game board edges
     checkIfTetrominoCanGoThere: function (tetromino, board) {
 
-        let tetrominoSquares = Tetromino.getSquares(tetromino);
+        var tetrominoSquares = Tetromino.getSquares(tetromino);
 
-        for (let y = 0; y < tetrominoSquares.length; y++) {
-            for (let x = 0; x < tetrominoSquares[y].length; x++) {
+        for (var y = 0; y < tetrominoSquares.length; y++) {
+            for (var x = 0; x < tetrominoSquares[y].length; x++) {
 
                 if (tetrominoSquares[y][x] != null) {
 
-                    let boardY = tetromino.y + y;
-                    let boardX = tetromino.x + x;
+                    var boardY = tetromino.y + y;
+                    var boardX = tetromino.x + x;
 
                     //tetromino is blocked by the game board edge
                     if ((boardY > Game.BoardSize.h - 1) || (boardY < 0) || (boardX < 0) || (boardX > Game.BoardSize.w - 1)) {
@@ -39,7 +39,7 @@ const Game = {
     checkIfTetrominoCanMoveDown: function (tetromino, board) {
 
         //create a shallow copy of the tetromino so that we can change the Y coordinate 
-        let newTetromino = JSON.parse(JSON.stringify(tetromino));
+        var newTetromino = JSON.parse(JSON.stringify(tetromino));
         newTetromino.y++;
         return Game.checkIfTetrominoCanGoThere(newTetromino, board);
     },
@@ -47,13 +47,13 @@ const Game = {
     //This method can be used for 3 different actions: add a tetromino on the board, remove and solidify 
     modifyBoard: function (tetromino, board, boardAction) {
 
-        let tetrominoSquares = Tetromino.getSquares(tetromino);
-        for (let y = 0; y < tetrominoSquares.length; y++) {
-            for (let x = 0; x < tetrominoSquares[y].length; x++) {
+        var tetrominoSquares = Tetromino.getSquares(tetromino);
+        for (var y = 0; y < tetrominoSquares.length; y++) {
+            for (var x = 0; x < tetrominoSquares[y].length; x++) {
 
                 if (tetrominoSquares[y][x] != null && tetrominoSquares[y][x] != 0) {
-                    let boardY = tetromino.y + y;
-                    let boardX = tetromino.x + x;
+                    var boardY = tetromino.y + y;
+                    var boardX = tetromino.x + x;
 
                     if (boardAction == Game.BoardActions.SOLIDIFY)
                         board[boardY][boardX] = -tetromino.type;
@@ -72,10 +72,10 @@ const Game = {
     //check if any lines were completed
     checkForTetris: function (gameState) {
 
-        for (let y = Game.BoardSize.h - 1; y > 0; y--) {
+        for (var y = Game.BoardSize.h - 1; y > 0; y--) {
 
-            let lineIsComplete = true;
-            for (let x = 0; x < Game.BoardSize.w; x++) {
+            var lineIsComplete = true;
+            for (var x = 0; x < Game.BoardSize.w; x++) {
                 if (gameState.board[y][x] >= 0) {
                     lineIsComplete = false;
                     break;
@@ -87,8 +87,8 @@ const Game = {
                 gameState.score = gameState.score + 100 + (gameState.level - 1) * 50;
 
                 //move everything downwards
-                for (let fallingY = y; fallingY > 0; fallingY--) {
-                    for (let x = 0; x < Game.BoardSize.w; x++) {
+                for (var fallingY = y; fallingY > 0; fallingY--) {
+                    for (var x = 0; x < Game.BoardSize.w; x++) {
                         gameState.board[fallingY][x] = gameState.board[fallingY - 1][x];
                     }
                 }
@@ -118,7 +118,7 @@ const Game = {
     //returns the color of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
     getSquareColor: function (gameState, y, x) {
 
-        let square = gameState.board[y][x];
+        var square = gameState.board[y][x];
 
         //a negative value means the square is solidified
         if (square < 0) {
@@ -132,7 +132,7 @@ const Game = {
 
     //returns the css class of a gameboard square (cell) depending on if it's empty, solidified or occupied by a falling tetromino
     getSquareCssClass: function (gameState, y, x) {
-        let square = gameState.board[y][x];
+        var square = gameState.board[y][x];
 
         //zero means the square is empty
         if (square == 0) {
@@ -148,7 +148,7 @@ const Game = {
 
     //returns the color of the next tetromino. The next tetromino is displayed while the current tetromino is being played
     getNextTetrominoColor: function (gameState, y, x) {
-        let square = gameState.nextTetrominoSquares[y][x];
+        var square = gameState.nextTetrominoSquares[y][x];
         if (square == 0) {
             return $scope.getGameColor();
         } else {
@@ -159,7 +159,7 @@ const Game = {
     //Returns the game delay depending on the level. The higher the level, the faster the tetrimino falls
     getDelay: function (gameState) {
 
-        let delay = 1000;
+        var delay = 1000;
         if (gameState.level < 5) {
             delay = delay - (120 * (gameState.level - 1));
         } else if (gameState.level < 15) {

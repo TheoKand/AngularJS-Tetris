@@ -4,17 +4,17 @@ var app = angular.module('myApp', []);
 
 //set a cookie
 app.setCookie = function (cname, cvalue, exdays) {
-    let d = new Date();
+    var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + JSON.stringify(cvalue) + ";" + expires + ";path=/";
 };
 
 //get a cookie
 app.getCookie = function (cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    let result = "";
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    var result = "";
     ca.forEach(function (c) {
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -41,10 +41,10 @@ app.SoundEffectEnum = { Theme: "Theme.mp3", Drop: "Drop.mp3", GameOver: "GameOve
 //preload the audio files, only for non-mobile devices
 window.addEventListener('load', function () {
     
-    let totalAudioFiles = Object.keys(app.SoundEffectEnum).length;
+    var totalAudioFiles = Object.keys(app.SoundEffectEnum).length;
 
     function preloadAudio(url) {
-        let audio = new Audio();
+        var audio = new Audio();
         // once this file loads, it will call loadedAudio() the file will be kept by the browser as cache
         audio.addEventListener('canplaythrough', loadedAudio, false);
         audio.src = 'assets/media/' + url;
@@ -69,10 +69,14 @@ window.addEventListener('load', function () {
         finishedPreloading();
     } else {
         // we start preloading all the audio files
-        for (let sound in app.SoundEffectEnum) {
+        for (var sound in app.SoundEffectEnum) {
             preloadAudio(app.SoundEffectEnum[sound] );
         }
     }
 
 
 }, false);
+
+
+
+

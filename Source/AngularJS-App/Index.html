@@ -42,8 +42,8 @@
                     <li><a href="#" data-toggle="modal" data-target="#InfoModal" id="btnInfo">Info</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#InfoHighscores">Highscores</a></li>
                     <li role="separator" class="divider"></li>
-                    <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="saveGame()">Save Game</a></li>
-                    <li><a href="#" ng-click="restoreGame()">Restore Game</a></li>
+                    <li ng-class="{ 'disabled': !GameState.running && !GameState.paused }"><a href="#" ng-click="saveGame()">Save Game (S)</a></li>
+                    <li><a href="#" ng-click="restoreGame()">Restore Game (R)</a></li>
                     <li class="hidden-xs divider" role="separator"></li>
                     <li class="hidden-xs "><a href="#" ng-click="setMusic(!(getMusic()))">Music : {{ getMusic() ? "OFF" : "ON"}}</a></li>
                     <li class="hidden-xs "><a href="#" ng-click="setSoundFX(!(getSoundFX()))">Sound Effects : {{ getSoundFX() ? "OFF" : "ON"}}</a></li>
@@ -282,10 +282,10 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
     <!-- 3rd party components -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <!-- project components -->
 
