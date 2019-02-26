@@ -139,7 +139,6 @@
     <Content Include="packages.config" />
     <Content Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\AngularTetris20170918013407 - Web Deploy.pubxml" />
-    <Content Include="test.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
